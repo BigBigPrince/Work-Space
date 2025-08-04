@@ -78,149 +78,93 @@ export default defineComponent({
 
 <style scoped>
 .sidebar {
-  width: 240px;
-  height: 100%;
-  background-color: #ffffff;
-  border-right: 1px solid #f0f0f0;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: width 0.3s ease;
-  position: relative;
+  @apply w-60 h-full bg-white border-r border-gray-200 flex flex-col shadow-sm relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sidebar.collapsed {
-  width: 64px;
+  @apply w-16;
 }
 
 .sidebar-header {
-  padding: 20px;
-  border-bottom: 1px solid #f0f0f0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 64px;
+  @apply px-5 py-4 border-b border-gray-200 flex items-center justify-between h-16;
 }
 
 .sidebar-header h3 {
-  margin: 0;
-  color: #333;
-  font-size: 18px;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  @apply m-0 text-gray-800 text-lg font-medium truncate;
 }
 
 .toggle-btn {
-  cursor: pointer;
-  width: 24px;
-  height: 24px;
-
-display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  transition: all 0.3s;
+  @apply cursor-pointer w-6 h-6 flex items-center justify-center rounded transition-all;
 }
 
 .toggle-btn:hover {
-  background-color: #f0f0f0;
+  @apply bg-gray-100;
 }
 
 .toggle-icon {
-  font-size: 14px;
-  color: #999;
+  @apply text-gray-500 text-sm;
 }
 
 .sidebar-menu {
-  padding: 16px 0;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  overflow-y: auto;
+  @apply py-4 flex flex-col flex-1 overflow-y-auto;
 }
 
 .menu-item {
-  padding: 12px 20px;
-  color: #333;
-  text-decoration: none;
-  font-size: 14px;
-  transition: all 0.3s ease;
-  position: relative;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
+  @apply px-5 py-3 text-gray-700 no-underline text-sm transition-all relative flex items-center overflow-hidden;
 }
 
 .menu-icon {
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 10px;
-  flex-shrink: 0;
+  @apply w-6 h-6 flex items-center justify-center mr-2 flex-shrink-0;
 }
 
 .default-icon {
-  font-size: 18px;
-  color: #999;
+  @apply text-gray-400 text-lg;
 }
 
 .menu-title {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  @apply truncate;
 }
 
 .menu-item:hover {
-  background-color: #f5f5f5;
-  color: #1890ff;
+  @apply bg-gray-50 text-primary;
 }
 
 .menu-item.active {
-  color: #1890ff;
-  background-color: #e6f7ff;
+  @apply text-primary bg-blue-50;
 }
 
 .menu-item.active::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background-color: #1890ff;
+  @apply content-[''] absolute left-0 top-0 bottom-0 w-1 bg-primary;
 }
 
 .sidebar-footer {
-  padding: 16px 20px;
-  border-top: 1px solid #f0f0f0;
-  font-size: 12px;
-  color: #999;
+  @apply px-5 py-4 border-t border-gray-200 text-xs text-gray-500;
 }
 
 .footer-info p {
-  margin: 0;
+  @apply m-0;
+}
+
+/* 优化折叠状态下的样式 */
+.sidebar.collapsed .menu-item {
+  @apply justify-center px-0;
+}
+
+.sidebar.collapsed .menu-icon {
+  @apply mr-0;
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
   .sidebar {
-    width: 64px;
+    @apply w-16;
   }
 
-  .sidebar-header h3 {
-    display: none;
-  }
-
-  .menu-title {
-    display: none;
-  }
-
+  .sidebar-header h3,
+  .menu-title,
   .sidebar-footer {
-    display: none;
+    @apply hidden;
   }
 }
 </style>
