@@ -20,8 +20,8 @@
           <i :class="route.meta.icon"></i>
         </div>
         <div v-else class="menu-icon">
-          <!-- 默认图标 -->
-          <span class="default-icon">•</span>
+          <!-- 默认图标占位 -->
+          <span class="default-icon"></span>
         </div>
         <span class="menu-title" v-if="!isCollapsed">{{ route.meta?.title || '未命名' }}</span>
       </router-link>

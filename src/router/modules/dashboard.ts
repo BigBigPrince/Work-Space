@@ -5,7 +5,7 @@ const route: RouteRecordRaw = {
   name: 'Dashboard',
   component: () => import('@/views/dashboard/index.vue'),
   meta: {
-    title: '仪表盘',
+    title: '学习培训',
     sort: 3
   }
 }
