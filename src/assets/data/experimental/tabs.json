@@ -7,6 +7,30 @@
         {
           "id": "subtab1",
           "label": "子类型1",
+          "columns": [
+            {
+              "prop": "id",
+              "label": "ID",
+              "width": 100,
+              "align": "center"
+            },
+            {
+              "prop": "name",
+              "label": "设备名称",
+              "width": 180
+            },
+            {
+              "prop": "status",
+              "label": "状态",
+              "width": 120,
+              "align": "center",
+              "renderType": "tag"
+            },
+            {
+              "prop": "location",
+              "label": "位置"
+            }
+          ],
           "tableData": [
             { "id": 1, "name": "设备1", "status": "正常", "location": "实验室A" },
             { "id": 2, "name": "设备2", "status": "维护中", "location": "实验室B" }
@@ -15,6 +39,30 @@
         {
           "id": "subtab2",
           "label": "子类型2",
+          "columns": [
+            {
+              "prop": "id",
+              "label": "ID",
+              "width": 100,
+              "align": "center"
+            },
+            {
+              "prop": "name",
+              "label": "设备名称",
+              "width": 180
+            },
+            {
+              "prop": "status",
+              "label": "状态",
+              "width": 120,
+              "align": "center",
+              "renderType": "tag"
+            },
+            {
+              "prop": "location",
+              "label": "位置"
+            }
+          ],
           "tableData": [
             { "id": 3, "name": "设备3", "status": "正常", "location": "实验室C" },
             { "id": 4, "name": "设备4", "status": "正常", "location": "实验室A" }
@@ -29,6 +77,30 @@
         {
           "id": "subtab3",
           "label": "子类型3",
+          "columns": [
+            {
+              "prop": "id",
+              "label": "ID",
+              "width": 100,
+              "align": "center"
+            },
+            {
+              "prop": "name",
+              "label": "设备名称",
+              "width": 180
+            },
+            {
+              "prop": "status",
+              "label": "状态",
+              "width": 120,
+              "align": "center",
+              "renderType": "tag"
+            },
+            {
+              "prop": "location",
+              "label": "位置"
+            }
+          ],
           "tableData": [
             { "id": 5, "name": "设备5", "status": "维护中", "location": "实验室B" },
             { "id": 6, "name": "设备6", "status": "正常", "location": "实验室C" }
@@ -37,6 +109,30 @@
         {
           "id": "subtab4",
           "label": "子类型4",
+          "columns": [
+            {
+              "prop": "id",
+              "label": "ID",
+              "width": 100,
+              "align": "center"
+            },
+            {
+              "prop": "name",
+              "label": "设备名称",
+              "width": 180
+            },
+            {
+              "prop": "status",
+              "label": "状态",
+              "width": 120,
+              "align": "center",
+              "renderType": "tag"
+            },
+            {
+              "prop": "location",
+              "label": "位置"
+            }
+          ],
           "tableData": [
             { "id": 7, "name": "设备7", "status": "正常", "location": "实验室A" },
             { "id": 8, "name": "设备8", "status": "正常", "location": "实验室B" }
