@@ -22,7 +22,7 @@
           v-for="site in nonFavoriteWebsites"
           :key="site.id"
           :site="site"
-          :isFavorite="false"
+          :isFavorite="favoriteIds.has(site.id)"
           @toggle-favorite="toggleFavorite"
         />
       </div>
@@ -51,9 +51,7 @@ const websites = ref<Website[]>(websitesData)
 const favoriteWebsites = computed(() =>
   websites.value.filter(site => favoriteIds.value.has(site.id))
 )
-const nonFavoriteWebsites = computed(() =>
-  websites.value.filter(site => !favoriteIds.value.has(site.id))
-)
+const nonFavoriteWebsites = computed(() => websites.value)
 
 // 在组件挂载时从localStorage加载收藏状态
 onMounted(() => {
