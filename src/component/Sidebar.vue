@@ -65,7 +65,12 @@
             :class="{ active: $route.path === `${route.path}/${child.path}` }"
             :title="child.meta?.title || '未命名'"
           >
-            <span class="submenu-icon">•</span>
+            <div class="menu-icon" v-if="child.meta?.icon">
+              <el-icon><component :is="child.meta.icon" /></el-icon>
+            </div>
+            <div v-else class="menu-icon">
+              <el-icon><span class="default-icon"></span></el-icon>
+            </div>
             <span class="submenu-title">{{ child.meta?.title || '未命名' }}</span>
           </router-link>
         </div>
@@ -278,12 +283,8 @@ export default defineComponent({
   @apply content-[''] absolute left-0 top-0 bottom-0 w-1 bg-primary;
 }
 
-.submenu-icon {
-  @apply mr-2 text-xs;
-}
-
 .submenu-title {
-  @apply truncate;
+  @apply truncate ml-2;
 }
 
 .sidebar-footer {

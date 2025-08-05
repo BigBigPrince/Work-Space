@@ -28,7 +28,7 @@ const route: RouteRecordRaw = {
       meta: {
         title: '培训安排',
         sort: 2,
-        icon: 'el-icon-date'
+        icon: 'Notebook'
       }
     }
   ]
