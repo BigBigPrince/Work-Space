@@ -93,7 +93,7 @@
             <div
               v-show="hoveredMenu === route.name"
               class="collapsed-submenu"
-              style="position: absolute; left: 100%; top: 0; z-index: 1000; min-width: 180px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 6px;"
+              style="position: absolute; left: 100%; top: 0; z-index: 2000; min-width: 180px; background: white; display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 1px solid #e2e8f0; border-radius: 6px;"
             >
               <div class="collapsed-submenu-title">{{ route.meta?.title || '未命名' }}</div>
               <router-link
@@ -360,7 +360,7 @@ export default defineComponent({
 }
 
 .sidebar-menu {
-  @apply py-3 flex flex-col flex-1 overflow-y-auto;
+  @apply py-3 flex flex-col flex-1 overflow-visible;
 }
 
 .menu-group {
@@ -477,6 +477,7 @@ export default defineComponent({
 /* 折叠状态下的子菜单样式 */
 .collapsed-submenu-trigger {
   position: relative;
+  z-index: 1;
 }
 
 .collapsed-submenu {
@@ -487,8 +488,11 @@ export default defineComponent({
   background-color: white;
   border-radius: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 100;
+  z-index: 9999;
   padding: 8px 0;
+  display: block;
+  transform: translateZ(0);
+  border: 1px solid #e2e8f0;
 }
 
 .collapsed-submenu-title {
