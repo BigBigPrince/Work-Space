@@ -184,7 +184,8 @@ export default defineComponent({
 
 <style scoped>
 .sidebar {
-  @apply w-60 h-full bg-white border-r border-gray-200 flex flex-col shadow-sm relative;
+  @apply w-64 h-full bg-white flex flex-col relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -193,15 +194,16 @@ export default defineComponent({
 }
 
 .sidebar-header {
-  @apply px-5 py-4 border-b border-gray-200 flex items-center justify-between h-16;
+  @apply px-6 py-5 flex items-center justify-between h-16;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
 }
 
 .sidebar-header h3 {
-  @apply m-0 text-gray-800 text-lg font-medium truncate;
+  @apply m-0 text-gray-700 text-lg font-semibold truncate;
 }
 
 .toggle-btn {
-  @apply cursor-pointer w-6 h-6 flex items-center justify-center rounded transition-all;
+  @apply cursor-pointer w-6 h-6 flex items-center justify-center rounded-full transition-all;
 }
 
 .toggle-btn:hover {
@@ -213,7 +215,7 @@ export default defineComponent({
 }
 
 .sidebar-menu {
-  @apply py-4 flex flex-col flex-1 overflow-y-auto;
+  @apply py-3 flex flex-col flex-1 overflow-y-auto;
 }
 
 .menu-group {
@@ -221,31 +223,42 @@ export default defineComponent({
 }
 
 .menu-item {
-  @apply px-5 py-3 text-gray-700 no-underline text-sm transition-all relative flex items-center overflow-hidden cursor-pointer;
+  @apply px-6 py-3 text-gray-600 no-underline text-sm transition-all relative flex items-center overflow-hidden cursor-pointer;
+  margin: 2px 8px;
+  border-radius: 6px;
 }
 
 .menu-icon {
-  @apply w-6 h-6 flex items-center justify-center mr-2 flex-shrink-0;
+  @apply w-5 h-5 flex items-center justify-center mr-3 flex-shrink-0;
+  transition: all 0.2s ease;
 }
 
 .default-icon {
-  @apply text-gray-400 text-lg;
+  @apply text-gray-400;
 }
 
 .menu-title {
-  @apply truncate flex-1;
+  @apply truncate flex-1 font-medium;
 }
 
 .menu-item:hover {
-  @apply bg-gray-50 text-primary;
+  @apply bg-gray-50 text-gray-900;
+}
+
+.menu-item:hover .menu-icon {
+  @apply text-gray-700;
 }
 
 .menu-item.active {
-  @apply text-primary bg-blue-50;
+  @apply text-indigo-600 bg-indigo-50;
+}
+
+.menu-item.active .menu-icon {
+  @apply text-indigo-600;
 }
 
 .menu-item.active::before {
-  @apply content-[''] absolute left-0 top-0 bottom-0 w-1 bg-primary;
+  @apply content-[''] absolute left-0 top-0 bottom-0 w-1 bg-indigo-500 rounded-r;
 }
 
 /* 父菜单样式 */
@@ -254,33 +267,40 @@ export default defineComponent({
 }
 
 .submenu-arrow {
-  @apply absolute right-4 text-xs transition-transform;
+  @apply absolute right-4 text-xs transition-transform text-gray-400;
+}
+
+.parent-menu:hover .submenu-arrow {
+  @apply text-gray-600;
 }
 
 .parent-menu.expanded .submenu-arrow {
-  @apply transform rotate-180;
+  @apply transform rotate-180 text-gray-600;
 }
 
 /* 子菜单容器样式 */
 .submenu {
-  @apply bg-gray-50 overflow-hidden;
+  @apply overflow-hidden;
+  background-color: rgba(241, 245, 249, 0.5);
+  border-radius: 0 0 6px 6px;
+  margin: 0 8px 4px;
 }
 
 /* 子菜单项样式 */
 .submenu-item {
-  @apply px-5 py-2 pl-10 text-gray-600 no-underline text-sm transition-all flex items-center overflow-hidden;
+  @apply px-6 py-2 pl-12 text-gray-500 no-underline text-sm transition-all flex items-center overflow-hidden;
 }
 
 .submenu-item:hover {
-  @apply bg-gray-100 text-primary;
+  @apply bg-gray-100 text-gray-800;
 }
 
 .submenu-item.active {
-  @apply text-primary bg-blue-100;
+  @apply text-indigo-600 bg-indigo-100;
 }
 
 .submenu-item.active::before {
-  @apply content-[''] absolute left-0 top-0 bottom-0 w-1 bg-primary;
+  @apply content-[''] absolute left-0 top-0 bottom-0 w-1 bg-indigo-500 rounded-r;
 }
 
 .submenu-title {
@@ -288,7 +308,8 @@ export default defineComponent({
 }
 
 .sidebar-footer {
-  @apply px-5 py-4 border-t border-gray-200 text-xs text-gray-500;
+  @apply px-6 py-4 text-xs text-gray-400;
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
 }
 
 .footer-info p {
@@ -297,7 +318,7 @@ export default defineComponent({
 
 /* 优化折叠状态下的样式 */
 .sidebar.collapsed .menu-item {
-  @apply justify-center px-0;
+  @apply justify-center px-0 mx-2;
 }
 
 .sidebar.collapsed .menu-icon {
