@@ -1,11 +1,11 @@
 import type { RouteRecordRaw } from 'vue-router'
 
 const route: RouteRecordRaw = {
-  path: '/about',
-  name: 'About',
-  component: () => import('@/views/about/index.vue'),
+  path: '/experimental',
+  name: 'Experimental',
+  component: () => import('@/views/experimental/index.vue'),
   meta: {
-    title: '试验机汇总',
+    title: '实验机汇总',
     sort: 2,
     icon: 'InfoFilled'
   }
