@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "数据查询平台",
+    "url": "https://example.com/data",
+    "description": "主要数据查询平台"
+  },
+  {
+    "id": 2,
+    "name": "数据分析工具",
+    "url": "https://example.com/analytics",
+    "description": "强大的数据分析工具"
+  },
+  {
+    "id": 3,
+    "name": "数据可视化",
+    "url": "https://example.com/visualization",
+    "description": "数据可视化工具"
+  },
+  {
+    "id": 4,
+    "name": "数据库管理",
+    "url": "https://example.com/dbadmin",
+    "description": "数据库管理系统"
+  }
+]
