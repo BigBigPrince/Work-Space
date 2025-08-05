@@ -7,24 +7,69 @@
       </div>
     </div>
     <div class="sidebar-menu">
-      <router-link
+      <div
         v-for="route in sortedRoutes"
         :key="route.path"
-        :to="route.path"
-        class="menu-item"
-        :class="{ active: $route.path === route.path }"
-        :title="route.meta?.title || '未命名'"
+        class="menu-group"
       >
-        <div class="menu-icon" v-if="route.meta?.icon">
-          <!-- 如果路由有图标，可以在这里显示 -->
-          <i :class="route.meta.icon"></i>
+        <!-- 父菜单项 -->
+        <div
+          v-if="route.meta?.hasChildren"
+          class="menu-item parent-menu"
+          :class="{
+            'active': isRouteActive(route),
+            'expanded': expandedMenus.includes(route.name as string)
+          }"
+          @click="toggleSubmenu(route.name as string)"
+          :title="route.meta?.title || '未命名'"
+        >
+          <div class="menu-icon" v-if="route.meta?.icon">
+            <i :class="route.meta.icon"></i>
+          </div>
+          <div v-else class="menu-icon">
+            <span class="default-icon"></span>
+          </div>
+          <span class="menu-title" v-if="!isCollapsed">{{ route.meta?.title || '未命名' }}</span>
+          <span class="submenu-arrow" v-if="!isCollapsed">
+            {{ expandedMenus.includes(route.name as string) ? '▼' : '▶' }}
+          </span>
         </div>
-        <div v-else class="menu-icon">
-          <!-- 默认图标占位 -->
-          <span class="default-icon"></span>
+
+        <!-- 没有子菜单的普通菜单项 -->
+        <router-link
+          v-else
+          :to="route.path"
+          class="menu-item"
+          :class="{ active: $route.path === route.path }"
+          :title="route.meta?.title || '未命名'"
+        >
+          <div class="menu-icon" v-if="route.meta?.icon">
+            <i :class="route.meta.icon"></i>
+          </div>
+          <div v-else class="menu-icon">
+            <span class="default-icon"></span>
+          </div>
+          <span class="menu-title" v-if="!isCollapsed">{{ route.meta?.title || '未命名' }}</span>
+        </router-link>
+
+        <!-- 子菜单 -->
+        <div
+          v-if="route.meta?.hasChildren && expandedMenus.includes(route.name as string) && !isCollapsed"
+          class="submenu"
+        >
+          <router-link
+            v-for="child in getChildRoutes(route.name as string)"
+            :key="child.path"
+            :to="`${route.path}/${child.path}`"
+            class="submenu-item"
+            :class="{ active: $route.path === `${route.path}/${child.path}` }"
+            :title="child.meta?.title || '未命名'"
+          >
+            <span class="submenu-icon">•</span>
+            <span class="submenu-title">{{ child.meta?.title || '未命名' }}</span>
+          </router-link>
         </div>
-        <span class="menu-title" v-if="!isCollapsed">{{ route.meta?.title || '未命名' }}</span>
-      </router-link>
+      </div>
     </div>
     <div class="sidebar-footer" v-if="!isCollapsed">
       <div class="footer-info">
@@ -46,16 +91,37 @@ export default defineComponent({
     const route = useRoute()
     const isCollapsed = ref(false)
     const currentYear = new Date().getFullYear()
+    const expandedMenus = ref<string[]>([])
 
     // 切换侧边栏折叠状态
     const toggleCollapse = () => {
       isCollapsed.value = !isCollapsed.value
+      // 如果折叠了侧边栏，关闭所有展开的子菜单
+      if (isCollapsed.value) {
+        expandedMenus.value = []
+      }
+    }
+
+    // 切换子菜单的展开/折叠状态
+    const toggleSubmenu = (routeName: string) => {
+      const index = expandedMenus.value.indexOf(routeName)
+      if (index === -1) {
+        expandedMenus.value.push(routeName)
+      } else {
+        expandedMenus.value.splice(index, 1)
+      }
     }
 
     // 获取所有路由并按照 meta.sort 排序
     const sortedRoutes = computed(() => {
-      // 过滤出有 meta.title 的路由
-      const routes = router.getRoutes().filter(route => route.meta?.title)
+      // 过滤出有 meta.title 的顶级路由
+      const routes = router.getRoutes().filter(route => {
+        // 只保留有title的路由，并且是顶级路由（路径中只有一个/）
+        return route.meta?.title &&
+               (route.path === '/' ||
+                (route.path.startsWith('/') &&
+                 route.path.substring(1).indexOf('/') === -1))
+      })
 
       // 按照 meta.sort 排序，如果没有 sort，则放在最后
       return routes.sort((a, b) => {
@@ -65,12 +131,47 @@ export default defineComponent({
       })
     })
 
+    // 获取指定父路由的子路由
+    const getChildRoutes = (parentName: string) => {
+      const parentRoute = router.getRoutes().find(r => r.name === parentName)
+      if (!parentRoute) return []
+
+      console.log('Parent route:', parentRoute)
+
+      // 查找所有以父路由路径开头的子路由
+      const children = router.getRoutes()
+        .filter(r => {
+          return r.path.startsWith(parentRoute.path + '/') && r.meta?.title
+        })
+        .sort((a, b) => {
+          const sortA = a.meta?.sort as number || Infinity
+          const sortB = b.meta?.sort as number || Infinity
+          return sortA - sortB
+        })
+
+      console.log('Children routes:', children)
+      return children
+    }
+
+    // 检查路由或其子路由是否处于激活状态
+    const isRouteActive = (parentRoute: RouteRecordRaw) => {
+      // 检查当前路由是否是父路由
+      if (route.path === parentRoute.path) return true
+
+      // 检查当前路由是否是父路由的子路由
+      return route.path.startsWith(parentRoute.path + '/')
+    }
+
     return {
       sortedRoutes,
       isCollapsed,
       toggleCollapse,
       currentYear,
-      route
+      route,
+      expandedMenus,
+      toggleSubmenu,
+      getChildRoutes,
+      isRouteActive
     }
   }
 })
@@ -110,8 +211,12 @@ export default defineComponent({
   @apply py-4 flex flex-col flex-1 overflow-y-auto;
 }
 
+.menu-group {
+  @apply mb-1;
+}
+
 .menu-item {
-  @apply px-5 py-3 text-gray-700 no-underline text-sm transition-all relative flex items-center overflow-hidden;
+  @apply px-5 py-3 text-gray-700 no-underline text-sm transition-all relative flex items-center overflow-hidden cursor-pointer;
 }
 
 .menu-icon {
@@ -123,7 +228,7 @@ export default defineComponent({
 }
 
 .menu-title {
-  @apply truncate;
+  @apply truncate flex-1;
 }
 
 .menu-item:hover {
@@ -136,6 +241,49 @@ export default defineComponent({
 
 .menu-item.active::before {
   @apply content-[''] absolute left-0 top-0 bottom-0 w-1 bg-primary;
+}
+
+/* 父菜单样式 */
+.parent-menu {
+  @apply relative;
+}
+
+.submenu-arrow {
+  @apply absolute right-4 text-xs transition-transform;
+}
+
+.parent-menu.expanded .submenu-arrow {
+  @apply transform rotate-180;
+}
+
+/* 子菜单容器样式 */
+.submenu {
+  @apply bg-gray-50 overflow-hidden;
+}
+
+/* 子菜单项样式 */
+.submenu-item {
+  @apply px-5 py-2 pl-10 text-gray-600 no-underline text-sm transition-all flex items-center overflow-hidden;
+}
+
+.submenu-item:hover {
+  @apply bg-gray-100 text-primary;
+}
+
+.submenu-item.active {
+  @apply text-primary bg-blue-100;
+}
+
+.submenu-item.active::before {
+  @apply content-[''] absolute left-0 top-0 bottom-0 w-1 bg-primary;
+}
+
+.submenu-icon {
+  @apply mr-2 text-xs;
+}
+
+.submenu-title {
+  @apply truncate;
 }
 
 .sidebar-footer {
