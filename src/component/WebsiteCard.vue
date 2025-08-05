@@ -1,8 +1,9 @@
 <template>
-  <div class="relative rounded-lg p-3 transition-all duration-300 ease-out group
-              bg-white/90 backdrop-blur-sm border border-gray-100 shadow-sm hover:shadow-md
-              hover:bg-white hover:border-gray-200
-              transform hover:-translate-y-0.5"
+  <div class="relative rounded-xl p-4 transition-all duration-300 ease-out group
+              bg-gradient-to-br from-white/95 to-gray-50/95 backdrop-blur-sm
+              border border-gray-200/80 shadow-sm hover:shadow-lg
+              hover:border-gray-300/80
+              transform hover:-translate-y-1 hover:scale-[1.02]"
               :class="{
                 'opacity-0 translate-y-2': !isMounted,
                 'opacity-100 translate-y-0': isMounted
@@ -21,30 +22,30 @@
     </div>
 
     <!-- Card content -->
-    <div class="flex items-start space-x-2">
+    <div class="flex items-start space-x-4">
       <div class="relative flex-shrink-0">
-        <div class="w-8 h-8 rounded-md bg-white border border-gray-100 flex items-center justify-center overflow-hidden">
+        <div class="w-12 h-12 rounded-lg bg-white/80 border border-gray-200/60 flex items-center justify-center overflow-hidden shadow-sm">
           <img
             :src="getFaviconUrl(site.url)"
             :alt="site.name"
-            class="w-5 h-5 object-contain"
+            class="w-8 h-8 object-contain transition-transform duration-300 group-hover:scale-110"
             @error="handleImageError"
           >
         </div>
       </div>
-      <div class="flex-1 min-w-0">
-        <h3 class="text-sm font-medium text-gray-900 truncate">
+      <div class="flex-1 min-w-0 space-y-1">
+        <h3 class="text-sm font-semibold text-gray-900 truncate">
           {{ site.name }}
         </h3>
         <a
           :href="site.url"
           target="_blank"
-          class="text-blue-600 text-xs hover:underline block truncate mt-0.5"
+          class="text-blue-500 text-xs hover:underline block truncate"
         >
           {{ formatUrl(site.url) }}
         </a>
-        <div class="h-6 mt-0.5">
-          <p v-if="site.description" class="text-gray-500 text-xs line-clamp-2">
+        <div class="h-6">
+          <p v-if="site.description" class="text-gray-500/90 text-xs line-clamp-2 leading-snug">
             {{ site.description }}
           </p>
         </div>
@@ -52,12 +53,12 @@
     </div>
 
     <!-- Action buttons -->
-    <div class="flex justify-end mt-2">
+    <div class="flex justify-end mt-3">
       <button
         @click.stop="visitSite"
-        class="px-2 py-1 text-xs text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors duration-200"
+        class="px-3 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:shadow-inner"
       >
-        访问
+        访问网站
       </button>
     </div>
   </div>

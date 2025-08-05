@@ -11,6 +11,6 @@
     "name": "示例网站2",
     "description": "另一个示例网站的描述",
     "url": "https://example2.com",
-    "icon": "https://example2.com/favicon.ico"
+    "icon": "./baidu.ico"
   }
 ]
