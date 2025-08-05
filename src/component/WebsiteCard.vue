@@ -1,8 +1,8 @@
 <template>
-  <div class="relative rounded-xl p-4 transition-all duration-300 ease-out group
+  <div @click.stop="visitSite" class="relative rounded-xl p-4 transition-all duration-300 ease-out group
               bg-gradient-to-br from-white/95 to-gray-50/95 backdrop-blur-sm
               border border-gray-200/80 shadow-sm hover:shadow-lg
-              hover:border-gray-300/80
+              hover:border-gray-300/80 cursor-pointer
               transform hover:-translate-y-1 hover:scale-[1.02]"
               :class="{
                 'opacity-0 translate-y-2': !isMounted,
