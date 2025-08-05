@@ -108,61 +108,103 @@ onMounted(() => {
 
 <style scoped>
 .experimental-container {
-  padding: 2rem;
-  background-color: #f8fafc;
+  padding: 1.5rem 2rem;
+  background-color: #f9fafb;
   min-height: 100vh;
 }
 
+/* 标题区域 */
+.mb-8 h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #1f2937;
+  letter-spacing: -0.025em;
+}
+
+.mb-8 p {
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+/* 主TAB样式 */
 .main-tabs :deep(.el-tabs__nav) {
-  padding: 0 1.5rem;
-  padding-top: 1rem;
+  padding: 0 2rem;
+  margin-top: 0.5rem;
 }
 
 .main-tabs :deep(.el-tabs__item) {
   font-weight: 500;
-  color: #64748b;
-  padding: 0.75rem 1rem;
+  color: #6b7280;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.95rem;
+  transition: all 0.2s;
 }
 
 .main-tabs :deep(.el-tabs__item.is-active) {
-  color: #3b82f6;
+  color: #1d4ed8;
+  font-weight: 600;
 }
 
 .main-tabs :deep(.el-tabs__active-bar) {
-  background-color: #3b82f6;
-  height: 2px;
+  background-color: #1d4ed8;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
 }
 
+/* 子TAB样式 */
 .sub-tabs :deep(.el-tabs__item) {
-  padding: 0.5rem 1.25rem;
-  margin: 0 0.25rem;
-  border-radius: 0.5rem 0.5rem 0 0;
-  border: 1px solid transparent;
+  padding: 0.6rem 1.5rem;
+  margin: 0 0.5rem 0 0;
+  border-radius: 6px;
+  background-color: #f3f4f6;
+  color: #4b5563;
+  border: none;
+  font-size: 0.9rem;
+  transition: all 0.2s;
 }
 
 .sub-tabs :deep(.el-tabs__item.is-active) {
-  background-color: #eff6ff;
-  color: #3b82f6;
-  border-color: #e2e8f0;
+  background-color: #1d4ed8;
+  color: white;
+  font-weight: 500;
 }
 
+.sub-tabs :deep(.el-tabs__nav-wrap) {
+  padding: 0;
+}
 .sub-tabs :deep(.el-tabs__nav) {
-  border-bottom: none;
+  border: none !important;
+  padding: 0.5rem 0;
+}
+.sub-tabs :deep(.el-tabs__content) {
+  padding: 0;
+  border: none !important;
 }
 
+/* 表格样式 */
 .el-table {
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .el-table :deep(th) {
-  background-color: #f1f5f9;
-  font-weight: 500;
-  color: #475569;
+  background-color: #f9fafb;
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+
+.el-table :deep(td) {
+  font-size: 0.9rem;
+  color: #4b5563;
 }
 
 .el-table :deep(.el-table__row) {
-  transition: background-color 0.2s;
+  transition: all 0.2s;
   cursor: pointer;
 }
 
@@ -170,8 +212,31 @@ onMounted(() => {
   background-color: #f8fafc;
 }
 
+/* 标签样式 */
 .el-tag {
-  border-radius: 9999px;
+  border-radius: 12px;
   padding: 0 0.75rem;
+  height: 26px;
+  line-height: 26px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.el-tag.el-tag--success {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border-color: #a7f3d0;
+}
+
+.el-tag.el-tag--warning {
+  background-color: #fffbeb;
+  color: #92400e;
+  border-color: #fcd34d;
+}
+
+/* 内容卡片 */
+.bg-white {
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 </style>
