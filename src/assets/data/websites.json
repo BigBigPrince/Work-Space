@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "示例网站1",
+    "description": "这是一个示例网站的描述",
+    "url": "https://example.com",
+    "icon": "https://example.com/favicon.ico",
+    "isFavorite": false
+  },
+  {
+    "id": 2,
+    "name": "示例网站2",
+    "description": "另一个示例网站的描述",
+    "url": "https://example2.com",
+    "icon": "https://example2.com/favicon.ico",
+    "isFavorite": true
+  }
+]

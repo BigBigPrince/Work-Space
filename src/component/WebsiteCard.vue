@@ -52,13 +52,7 @@
     </div>
 
     <!-- Action buttons -->
-    <div class="flex justify-end space-x-1.5 mt-2">
-      <button
-        @click.stop="$emit('edit', site)"
-        class="px-2 py-1 text-xs text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-md transition-colors duration-200 border border-gray-200"
-      >
-        编辑
-      </button>
+    <div class="flex justify-end mt-2">
       <button
         @click.stop="visitSite"
         class="px-2 py-1 text-xs text-white bg-blue-600 hover:bg-blue-700 rounded-md transition-colors duration-200"
@@ -76,7 +70,6 @@ const isMounted = ref(false)
 onMounted(() => {
   isMounted.value = true
 })
-import { defineProps, ref } from 'vue'
 
 const props = defineProps<{
   site: {
@@ -94,11 +87,10 @@ const defaultIcon = ref('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3d
 function getFaviconUrl(url: string) {
   // 优先使用本地保存的图标
   if (props.site.icon) {
-    return props.site.icon;
+    return props.site.icon
   }
-
   // 如果本地没有，使用默认图标
-  return defaultIcon.value;
+  return defaultIcon.value
 }
 
 function handleImageError(e: Event) {
