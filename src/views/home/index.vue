@@ -39,7 +39,7 @@ interface Website {
   id: number
   name: string
   url: string
-  icon: string
+  icon?: string
   description: string
 }
 

@@ -70,6 +70,14 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 
+// 为File System Access API添加类型声明
+declare global {
+  interface Window {
+    showDirectoryPicker?: () => Promise<any>;
+    showSaveFilePicker?: (options?: any) => Promise<any>;
+  }
+}
+
 const props = defineProps<{
   site: {
     id: number
@@ -77,6 +85,7 @@ const props = defineProps<{
     url: string
     description: string
     isFavorite: boolean
+    icon?: string
   }
   isEdit: boolean
 }>()
@@ -113,30 +122,42 @@ async function downloadFavicon(url: string): Promise<string> {
   try {
     const domain = new URL(url).hostname
     const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
+
+    // 检查File System Access API是否可用
+    if (!window.showDirectoryPicker || !window.showSaveFilePicker) {
+      console.log('File System Access API不可用，使用在线图标')
+      return faviconUrl
+    }
+
     const response = await fetch(faviconUrl)
     const blob = await response.blob()
 
-    // 创建favicons目录如果不存在
     try {
-      await window.showDirectoryPicker()
-    } catch {
-      // 目录已存在
+      // 创建favicons目录如果不存在
+      try {
+        await window.showDirectoryPicker()
+      } catch {
+        // 目录已存在或用户取消了选择
+      }
+
+      const fileName = `${domain}-${Date.now()}.png`
+      const fileHandle = await window.showSaveFilePicker({
+        suggestedName: fileName,
+        types: [{
+          description: 'PNG Images',
+          accept: {'image/png': ['.png']}
+        }]
+      })
+
+      const writable = await fileHandle.createWritable()
+      await writable.write(blob)
+      await writable.close()
+
+      return URL.createObjectURL(blob)
+    } catch (error) {
+      console.log('文件系统操作失败，使用在线图标', error)
+      return faviconUrl
     }
-
-    const fileName = `${domain}-${Date.now()}.png`
-    const fileHandle = await window.showSaveFilePicker({
-      suggestedName: fileName,
-      types: [{
-        description: 'PNG Images',
-        accept: {'image/png': ['.png']}
-      }]
-    })
-
-    const writable = await fileHandle.createWritable()
-    await writable.write(blob)
-    await writable.close()
-
-    return URL.createObjectURL(blob)
   } catch (error) {
     console.error('下载图标失败:', error)
     return `https://www.google.com/s2/favicons?domain=${url}`
@@ -145,23 +166,37 @@ async function downloadFavicon(url: string): Promise<string> {
 
 async function handleSubmit() {
   try {
-    // 下载并保存图标
-    const iconUrl = await downloadFavicon(form.value.url)
+    let iconUrl;
+
+    // 确保URL格式正确
+    if (!form.value.url.startsWith('http://') && !form.value.url.startsWith('https://')) {
+      form.value.url = 'https://' + form.value.url;
+    }
+
+    // 如果File System Access API不可用，直接使用Google Favicon服务
+    if (!window.showDirectoryPicker || !window.showSaveFilePicker) {
+      const domain = new URL(form.value.url).hostname;
+      iconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+    } else {
+      // 尝试下载并保存图标
+      iconUrl = await downloadFavicon(form.value.url);
+    }
 
     // 提交数据
     const submitData = {
       ...form.value,
       icon: iconUrl
-    }
-    emit('save', submitData)
+    };
+    emit('save', submitData);
   } catch (error) {
-    console.error('保存网站失败:', error)
+    console.error('保存网站失败:', error);
     // 使用默认图标提交
+    const domain = new URL(form.value.url).hostname;
     const submitData = {
       ...form.value,
-      icon: `https://www.google.com/s2/favicons?domain=${form.value.url}`
-    }
-    emit('save', submitData)
+      icon: `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
+    };
+    emit('save', submitData);
   }
 }
 </script>
