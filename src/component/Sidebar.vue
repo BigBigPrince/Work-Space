@@ -30,9 +30,7 @@
             <el-icon><span class="default-icon"></span></el-icon>
           </div>
           <span class="menu-title" v-if="!isCollapsed">{{ route.meta?.title || '未命名' }}</span>
-          <span class="submenu-arrow" v-if="!isCollapsed">
-            {{ expandedMenus.includes(route.name as string) ? '▼' : '▶' }}
-          </span>
+          <span class="submenu-arrow" v-if="!isCollapsed"></span>
         </div>
 
         <!-- 没有子菜单的普通菜单项 -->
@@ -267,15 +265,20 @@ export default defineComponent({
 }
 
 .submenu-arrow {
-  @apply absolute right-4 text-xs transition-transform text-gray-400;
+  @apply absolute right-4 w-4 h-4 transition-all duration-200;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3Cpath d='M7 13l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 
 .parent-menu:hover .submenu-arrow {
-  @apply text-gray-600;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5' stroke='%2364758b' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3Cpath d='M7 13l5 5 5-5' stroke='%2364758b' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
 }
 
 .parent-menu.expanded .submenu-arrow {
-  @apply transform rotate-180 text-gray-600;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath d='M7 14l5-5 5 5' stroke='%2364758b' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3Cpath d='M7 17l5-5 5 5' stroke='%2364758b' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
+  transform: rotate(0deg);
 }
 
 /* 子菜单容器样式 */
