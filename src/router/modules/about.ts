@@ -6,7 +6,8 @@ const route: RouteRecordRaw = {
   component: () => import('@/views/about/index.vue'),
   meta: {
     title: '试验机汇总',
-    sort: 2
+    sort: 2,
+    icon: 'InfoFilled'
   }
 }
 

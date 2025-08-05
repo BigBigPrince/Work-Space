@@ -7,7 +7,8 @@ const route: RouteRecordRaw = {
   meta: {
     title: '培训管理',
     sort: 4,
-    hasChildren: true // 标记该路由有子菜单
+    hasChildren: true, // 标记该路由有子菜单
+    icon: 'Reading'
   },
   children: [
     {
@@ -16,7 +17,8 @@ const route: RouteRecordRaw = {
       component: () => import('@/views/training/courses.vue'),
       meta: {
         title: '课程列表',
-        sort: 1
+        sort: 1,
+        icon: 'Notebook'
       }
     },
     {
@@ -25,7 +27,8 @@ const route: RouteRecordRaw = {
       component: () => import('@/views/training/schedule.vue'),
       meta: {
         title: '培训安排',
-        sort: 2
+        sort: 2,
+        icon: 'el-icon-date'
       }
     }
   ]

@@ -6,7 +6,8 @@ const route: RouteRecordRaw = {
   component: () => import('@/views/dashboard/index.vue'),
   meta: {
     title: '学习培训',
-    sort: 3
+    sort: 3,
+    icon: 'DataLine'
   }
 }
 

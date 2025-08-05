@@ -24,10 +24,10 @@
           :title="route.meta?.title || '未命名'"
         >
           <div class="menu-icon" v-if="route.meta?.icon">
-            <i :class="route.meta.icon"></i>
+            <el-icon><component :is="route.meta.icon" /></el-icon>
           </div>
           <div v-else class="menu-icon">
-            <span class="default-icon"></span>
+            <el-icon><span class="default-icon"></span></el-icon>
           </div>
           <span class="menu-title" v-if="!isCollapsed">{{ route.meta?.title || '未命名' }}</span>
           <span class="submenu-arrow" v-if="!isCollapsed">
@@ -44,10 +44,10 @@
           :title="route.meta?.title || '未命名'"
         >
           <div class="menu-icon" v-if="route.meta?.icon">
-            <i :class="route.meta.icon"></i>
+            <el-icon><component :is="route.meta.icon" /></el-icon>
           </div>
           <div v-else class="menu-icon">
-            <span class="default-icon"></span>
+            <el-icon><span class="default-icon"></span></el-icon>
           </div>
           <span class="menu-title" v-if="!isCollapsed">{{ route.meta?.title || '未命名' }}</span>
         </router-link>
