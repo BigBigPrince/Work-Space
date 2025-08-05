@@ -3,7 +3,7 @@
     <!-- 收藏网站区域 -->
     <div v-if="favoriteWebsites.length > 0" class="mb-8">
       <h2 class="text-xl font-bold mb-4">收藏网站</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         <WebsiteCard
           v-for="site in favoriteWebsites"
           :key="'fav-'+site.id"
@@ -25,7 +25,7 @@
           添加网站
         </button>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         <WebsiteCard
           v-for="site in nonFavoriteWebsites"
           :key="site.id"
@@ -39,7 +39,7 @@
     <!-- 添加/编辑模态框 -->
     <WebsiteModal
       v-if="showModal"
-      :site="currentSite"
+      :site="currentSite as Website"
       :is-edit="isEditMode"
       @save="saveWebsite"
       @close="closeModal"
@@ -70,7 +70,18 @@ const isEditMode = ref(false)
 
 onMounted(() => {
   loadWebsites()
+  // 更新现有网站的图标
+  updateWebsiteIcons()
 })
+
+function updateWebsiteIcons() {
+  websites.value.forEach(site => {
+    if (!site.icon && site.url) {
+      site.icon = getFaviconUrl(site.url)
+    }
+  })
+  saveToLocalStorage()
+}
 
 function loadWebsites() {
   const saved = localStorage.getItem('websites')
@@ -102,7 +113,21 @@ function closeModal() {
   showModal.value = false
 }
 
+function getFaviconUrl(url: string) {
+  try {
+    const domain = new URL(url).hostname
+    return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
+  } catch {
+    return ''
+  }
+}
+
 function saveWebsite(site: Website) {
+  // 自动设置favicon
+  if (!site.icon && site.url) {
+    site.icon = getFaviconUrl(site.url)
+  }
+
   if (isEditMode.value) {
     const index = websites.value.findIndex(w => w.id === site.id)
     websites.value.splice(index, 1, site)

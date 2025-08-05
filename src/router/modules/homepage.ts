@@ -7,7 +7,18 @@ const route: RouteRecordRaw = {
   meta: {
     title: '常用网站',
     sort: 1
-  }
+  },
+  // children: [
+  //   {
+  //     path: ':id',
+  //     name: 'Homepage',
+  //     component: () => import('@/views/home/index.vue'),
+  //     meta: {
+  //       title: '详情',
+  //       sort: 1
+  //     }
+  //   },
+  // ]
 }
 
 export default route

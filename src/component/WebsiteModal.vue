@@ -1,45 +1,40 @@
 <template>
   <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg p-6 w-full max-w-md">
-      <h2 class="text-xl font-bold mb-4">{{ isEdit ? '编辑网站' : '添加网站' }}</h2>
+    <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4">
+      <h2 class="text-xl font-semibold text-gray-800 mb-6">{{ isEdit ? '编辑网站' : '添加网站' }}</h2>
 
-      <form @submit.prevent="handleSubmit">
-        <div class="space-y-4">
+      <form @submit.prevent="handleSubmit" class="space-y-5">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">网站名称</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1.5">网站名称</label>
             <input
               v-model="form.name"
               type="text"
               required
-              class="w-full px-3 py-2 border rounded-md"
+              class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="输入网站名称"
             >
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">网站URL</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1.5">网站URL</label>
             <input
               v-model="form.url"
               type="url"
               required
-              class="w-full px-3 py-2 border rounded-md"
+              class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="https://example.com"
             >
           </div>
 
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">图标URL (可选)</label>
-            <input
-              v-model="form.icon"
-              type="url"
-              class="w-full px-3 py-2 border rounded-md"
-            >
-          </div>
+
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">描述 (可选)</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1.5">描述 (可选)</label>
             <textarea
               v-model="form.description"
               rows="3"
-              class="w-full px-3 py-2 border rounded-md"
+              class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="网站描述"
             ></textarea>
           </div>
 
@@ -52,19 +47,17 @@
             >
             <label for="favorite" class="ml-2 block text-sm text-gray-700">收藏</label>
           </div>
-        </div>
-
-        <div class="mt-6 flex justify-end space-x-3">
+        <div class="flex justify-end space-x-3 pt-2">
           <button
             type="button"
             @click="$emit('close')"
-            class="px-4 py-2 border rounded-md hover:bg-gray-100"
+            class="px-4 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             取消
           </button>
           <button
             type="submit"
-            class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+            class="px-4 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             保存
           </button>
@@ -82,7 +75,6 @@ const props = defineProps<{
     id: number
     name: string
     url: string
-    icon: string
     description: string
     isFavorite: boolean
   }
@@ -95,9 +87,15 @@ const form = ref({
   id: props.site.id,
   name: props.site.name,
   url: props.site.url,
-  icon: props.site.icon,
   description: props.site.description,
-  isFavorite: props.site.isFavorite
+  isFavorite: props.site.isFavorite,
+  icon: props.site.icon || `https://www.google.com/s2/favicons?domain=${props.site.url}`
+})
+
+watch(() => form.value.url, (newUrl) => {
+  if (!props.site.icon) {
+    form.value.icon = `https://www.google.com/s2/favicons?domain=${newUrl}`
+  }
 })
 
 watch(() => props.site, (newSite) => {
@@ -105,13 +103,65 @@ watch(() => props.site, (newSite) => {
     id: newSite.id,
     name: newSite.name,
     url: newSite.url,
-    icon: newSite.icon,
     description: newSite.description,
-    isFavorite: newSite.isFavorite
+    isFavorite: newSite.isFavorite,
+    icon: newSite.icon || `https://www.google.com/s2/favicons?domain=${newSite.url}`
   }
 }, { deep: true })
 
-function handleSubmit() {
-  emit('save', form.value)
+async function downloadFavicon(url: string): Promise<string> {
+  try {
+    const domain = new URL(url).hostname
+    const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
+    const response = await fetch(faviconUrl)
+    const blob = await response.blob()
+
+    // 创建favicons目录如果不存在
+    try {
+      await window.showDirectoryPicker()
+    } catch {
+      // 目录已存在
+    }
+
+    const fileName = `${domain}-${Date.now()}.png`
+    const fileHandle = await window.showSaveFilePicker({
+      suggestedName: fileName,
+      types: [{
+        description: 'PNG Images',
+        accept: {'image/png': ['.png']}
+      }]
+    })
+
+    const writable = await fileHandle.createWritable()
+    await writable.write(blob)
+    await writable.close()
+
+    return URL.createObjectURL(blob)
+  } catch (error) {
+    console.error('下载图标失败:', error)
+    return `https://www.google.com/s2/favicons?domain=${url}`
+  }
+}
+
+async function handleSubmit() {
+  try {
+    // 下载并保存图标
+    const iconUrl = await downloadFavicon(form.value.url)
+
+    // 提交数据
+    const submitData = {
+      ...form.value,
+      icon: iconUrl
+    }
+    emit('save', submitData)
+  } catch (error) {
+    console.error('保存网站失败:', error)
+    // 使用默认图标提交
+    const submitData = {
+      ...form.value,
+      icon: `https://www.google.com/s2/favicons?domain=${form.value.url}`
+    }
+    emit('save', submitData)
+  }
 }
 </script>
