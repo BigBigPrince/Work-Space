@@ -21,7 +21,7 @@
             'expanded': expandedMenus.includes(route.name as string)
           }"
           @click="toggleSubmenu(route.name as string)"
-          :title="route.meta?.title || '未命名'"
+          :title="String(route.meta?.title || '未命名')"
         >
           <div class="menu-icon">
             <el-icon v-if="route.meta?.icon">
@@ -45,7 +45,7 @@
           :to="route.path"
           class="menu-item"
           :class="{ active: isRouteActive(route) }"
-          :title="route.meta?.title || '未命名'"
+          :title="String(route.meta?.title || '未命名')"
         >
           <div class="menu-icon">
             <el-icon v-if="route.meta?.icon">
@@ -68,7 +68,7 @@
               :to="getChildPath(route.path, child.path)"
               class="submenu-item"
               :class="{ active: isChildRouteActive(route.path, child.path) }"
-              :title="child.meta?.title || '未命名'"
+              :title="String(child.meta?.title || '未命名')"
             >
               <div class="menu-icon">
                 <el-icon v-if="child.meta?.icon">
@@ -87,11 +87,13 @@
           class="collapsed-submenu-trigger"
           @mouseenter="showCollapsedSubmenu(route.name as string)"
           @mouseleave="hideCollapsedSubmenu"
+          style="position: relative;"
         >
           <transition name="fade">
             <div
-              v-if="hoveredMenu === route.name"
+              v-show="hoveredMenu === route.name"
               class="collapsed-submenu"
+              style="position: absolute; left: 100%; top: 0; z-index: 1000; min-width: 180px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 6px;"
             >
               <div class="collapsed-submenu-title">{{ route.meta?.title || '未命名' }}</div>
               <router-link
@@ -147,21 +149,27 @@ export default defineComponent({
 
     // 折叠状态下悬浮显示的子菜单
     const hoveredMenu = ref<string | null>(null)
+    const clickedMenu = ref<string | null>(null)
 
     // 切换侧边栏折叠状态
     const toggleCollapse = () => {
       isCollapsed.value = !isCollapsed.value
-      // 如果折叠了侧边栏，不再关闭所有展开的子菜单
-      // 因为我们添加了折叠状态下的悬浮子菜单功能
+      clickedMenu.value = null // 折叠/展开时关闭所有点击菜单
     }
 
     // 切换子菜单的展开/折叠状态
     const toggleSubmenu = (routeName: string) => {
-      const index = expandedMenus.value.indexOf(routeName)
-      if (index === -1) {
-        expandedMenus.value.push(routeName)
+      if (isCollapsed.value) {
+        // 折叠状态下点击主菜单项，切换弹出层
+        clickedMenu.value = clickedMenu.value === routeName ? null : routeName
       } else {
-        expandedMenus.value.splice(index, 1)
+        // 展开状态下正常切换子菜单展开状态
+        const index = expandedMenus.value.indexOf(routeName)
+        if (index === -1) {
+          expandedMenus.value.push(routeName)
+        } else {
+          expandedMenus.value.splice(index, 1)
+        }
       }
     }
 
@@ -173,6 +181,21 @@ export default defineComponent({
     // 隐藏折叠状态下的子菜单
     const hideCollapsedSubmenu = () => {
       hoveredMenu.value = null
+    }
+
+    // 点击外部关闭菜单的指令
+    const vClickOutside = {
+      beforeMount(el: any, binding: any) {
+        el.clickOutsideEvent = (event: Event) => {
+          if (!(el === event.target || el.contains(event.target))) {
+            binding.value()
+          }
+        }
+        document.addEventListener('click', el.clickOutsideEvent)
+      },
+      unmounted(el: any) {
+        document.removeEventListener('click', el.clickOutsideEvent)
+      }
     }
 
     // 获取所有路由并按照 meta.sort 排序
@@ -299,8 +322,10 @@ export default defineComponent({
       isChildRouteActive,
       getChildPath,
       hoveredMenu,
+      clickedMenu,
       showCollapsedSubmenu,
-      hideCollapsedSubmenu
+      hideCollapsedSubmenu,
+      vClickOutside,
     }
   }
 })
