@@ -1,0 +1,103 @@
+{
+  "name": "历史记录",
+  "columns": [
+    {
+      "title": "记录ID",
+      "dataIndex": "recordId",
+      "key": "recordId",
+      "width": 100
+    },
+    {
+      "title": "操作类型",
+      "dataIndex": "operationType",
+      "key": "operationType",
+      "width": 120
+    },
+    {
+      "title": "操作内容",
+      "dataIndex": "content",
+      "key": "content",
+      "width": 250
+    },
+    {
+      "title": "操作时间",
+      "dataIndex": "operationTime",
+      "key": "operationTime",
+      "width": 180
+    },
+    {
+      "title": "操作人",
+      "dataIndex": "operator",
+      "key": "operator",
+      "width": 120
+    },
+    {
+      "title": "IP地址",
+      "dataIndex": "ipAddress",
+      "key": "ipAddress",
+      "width": 150
+    },
+    {
+      "title": "状态",
+      "dataIndex": "status",
+      "key": "status",
+      "width": 100
+    }
+  ],
+  "data": [
+    {
+      "recordId": "R001",
+      "operationType": "登录",
+      "content": "用户登录系统",
+      "operationTime": "2023-06-15 08:30:25",
+      "operator": "张三",
+      "ipAddress": "192.168.1.100",
+      "status": "成功"
+    },
+    {
+      "recordId": "R002",
+      "operationType": "查询",
+      "content": "查询用户列表",
+      "operationTime": "2023-06-15 09:15:42",
+      "operator": "张三",
+      "ipAddress": "192.168.1.100",
+      "status": "成功"
+    },
+    {
+      "recordId": "R003",
+      "operationType": "新增",
+      "content": "新增用户记录",
+      "operationTime": "2023-06-15 10:05:18",
+      "operator": "李四",
+      "ipAddress": "192.168.1.101",
+      "status": "成功"
+    },
+    {
+      "recordId": "R004",
+      "operationType": "修改",
+      "content": "修改用户信息",
+      "operationTime": "2023-06-15 11:30:55",
+      "operator": "李四",
+      "ipAddress": "192.168.1.101",
+      "status": "成功"
+    },
+    {
+      "recordId": "R005",
+      "operationType": "删除",
+      "content": "删除用户记录",
+      "operationTime": "2023-06-15 14:20:33",
+      "operator": "王五",
+      "ipAddress": "192.168.1.102",
+      "status": "失败"
+    },
+    {
+      "recordId": "R006",
+      "operationType": "导出",
+      "content": "导出用户数据",
+      "operationTime": "2023-06-15 16:45:10",
+      "operator": "赵六",
+      "ipAddress": "192.168.1.103",
+      "status": "成功"
+    }
+  ]
+}

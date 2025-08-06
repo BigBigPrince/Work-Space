@@ -1,0 +1,152 @@
+/* 实验性组件的动画效果 */
+
+/* 淡入效果 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 上移淡入效果 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 下移淡入效果 */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 脉冲效果 */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* 加载动画 */
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 应用动画的类 */
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.fade-in-down {
+  animation: fadeInDown 0.5s ease forwards;
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* 为组件添加动画 */
+.tab-container {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.tabs-nav {
+  animation: fadeInDown 0.5s ease forwards;
+}
+
+.tab-item {
+  animation: fadeIn 0.5s ease forwards;
+  animation-delay: calc(var(--index, 0) * 0.1s);
+}
+
+.table-wrapper {
+  animation: fadeInUp 0.6s ease forwards;
+  animation-delay: 0.2s;
+}
+
+.data-table tbody tr {
+  animation: fadeIn 0.4s ease forwards;
+  animation-delay: calc(var(--index, 0) * 0.05s + 0.3s);
+  opacity: 0;
+}
+
+/* 加载中状态 */
+.loading {
+  position: relative;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 30px;
+  margin-top: -15px;
+  margin-left: -15px;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-top-color: #1890ff;
+  border-radius: 50%;
+  animation: loading 0.8s linear infinite;
+}
+
+.red-theme .loading::after {
+  border-top-color: #f5222d;
+}
+
+.green-theme .loading::after {
+  border-top-color: #52c41a;
+}
+
+/* 过渡效果 */
+.tab-transition-enter-active,
+.tab-transition-leave-active {
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.tab-transition-enter-from,
+.tab-transition-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* 响应式动画调整 */
+@media (prefers-reduced-motion: reduce) {
+  .tab-container,
+  .tabs-nav,
+  .tab-item,
+  .table-wrapper,
+  .data-table tbody tr {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}

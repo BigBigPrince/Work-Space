@@ -14,7 +14,7 @@ const route: RouteRecordRaw = {
       name: 'Red',
       component: () => import('@/views/experimental/red/Red.vue'),
       meta: {
-        title: '实验机汇总',
+        title: '红实验机',
         icon: 'InfoFilled'
       }
     },
@@ -23,7 +23,7 @@ const route: RouteRecordRaw = {
       name: 'Green',
       component: () => import('@/views/experimental/green/Green.vue'),
       meta: {
-        title: '实验机汇总',
+        title: '绿实验机',
         icon: 'InfoFilled'
       }
     },

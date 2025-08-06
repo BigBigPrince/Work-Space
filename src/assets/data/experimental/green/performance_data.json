@@ -1,0 +1,72 @@
+{
+  "name": "性能指标",
+  "columns": [
+    {
+      "title": "项目ID",
+      "dataIndex": "projectId",
+      "key": "projectId",
+      "width": 100
+    },
+    {
+      "title": "能源节约",
+      "dataIndex": "energySaved",
+      "key": "energySaved",
+      "width": 150
+    },
+    {
+      "title": "碳减排量",
+      "dataIndex": "carbonReduction",
+      "key": "carbonReduction",
+      "width": 150
+    },
+    {
+      "title": "资源利用率",
+      "dataIndex": "resourceUtilization",
+      "key": "resourceUtilization",
+      "width": 150
+    },
+    {
+      "title": "评估日期",
+      "dataIndex": "evaluationDate",
+      "key": "evaluationDate",
+      "width": 180
+    }
+  ],
+  "data": [
+    {
+      "projectId": "G001",
+      "energySaved": "120 kWh",
+      "carbonReduction": "85 kg",
+      "resourceUtilization": "78%",
+      "evaluationDate": "2023-03-15"
+    },
+    {
+      "projectId": "G002",
+      "energySaved": "350 kWh",
+      "carbonReduction": "210 kg",
+      "resourceUtilization": "92%",
+      "evaluationDate": "2023-04-20"
+    },
+    {
+      "projectId": "G003",
+      "energySaved": "75 kWh",
+      "carbonReduction": "45 kg",
+      "resourceUtilization": "65%",
+      "evaluationDate": "2023-05-10"
+    },
+    {
+      "projectId": "G004",
+      "energySaved": "180 kWh",
+      "carbonReduction": "120 kg",
+      "resourceUtilization": "82%",
+      "evaluationDate": "2023-06-05"
+    },
+    {
+      "projectId": "G005",
+      "energySaved": "95 kWh",
+      "carbonReduction": "60 kg",
+      "resourceUtilization": "71%",
+      "evaluationDate": "2023-07-12"
+    }
+  ]
+}

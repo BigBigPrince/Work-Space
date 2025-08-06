@@ -1,0 +1,215 @@
+/* 共享的实验性标签页样式 - 现代简约风格 */
+
+.tab-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 28px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+/* 标签页导航 */
+.tabs-nav {
+  display: flex;
+  margin-bottom: 28px;
+  border-bottom: none;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.tabs-nav::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #f0f0f0;
+  z-index: 1;
+}
+
+.tab-item {
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border-bottom: 2px solid transparent;
+  margin-right: 20px;
+  font-size: 16px;
+  position: relative;
+  z-index: 2;
+  user-select: none;
+  letter-spacing: 0.3px;
+}
+
+.tab-item:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.tab-item.active {
+  font-weight: 500;
+}
+
+.tab-item::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.tab-item.active::after {
+  transform: scaleX(1);
+}
+
+/* 表格容器 */
+.table-wrapper {
+  flex: 1;
+  overflow: auto;
+  border-radius: 10px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+}
+
+.table-wrapper:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* 数据表格 */
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.data-table th,
+.data-table td {
+  padding: 16px 20px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s ease;
+}
+
+.data-table th {
+  font-weight: 500;
+  font-size: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  letter-spacing: 0.5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.data-table td {
+  font-size: 14px;
+}
+
+.data-table tr {
+  transition: all 0.2s ease;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  z-index: 1;
+  position: relative;
+}
+
+/* 空数据状态 */
+.no-data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 240px;
+  color: #bbb;
+  font-size: 16px;
+  background-color: #fafafa;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+/* 滚动条美化 */
+.table-wrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
+}
+
+/* 响应式调整 */
+@media (max-width: 992px) {
+  .tab-container {
+    padding: 24px;
+  }
+
+  .tab-item {
+    padding: 12px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .tab-container {
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .tabs-nav {
+    margin-bottom: 20px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .tab-item {
+    padding: 10px 16px;
+    font-size: 15px;
+    white-space: nowrap;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 14px 16px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 576px) {
+  .tab-container {
+    padding: 16px;
+  }
+
+  .tab-item {
+    padding: 8px 12px;
+    font-size: 14px;
+    margin-right: 12px;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 12px;
+    font-size: 12px;
+  }
+}

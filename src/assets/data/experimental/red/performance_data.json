@@ -1,0 +1,94 @@
+{
+  "name": "性能数据",
+  "columns": [
+    {
+      "title": "项目ID",
+      "dataIndex": "projectId",
+      "key": "projectId",
+      "width": 100
+    },
+    {
+      "title": "项目名称",
+      "dataIndex": "projectName",
+      "key": "projectName",
+      "width": 180
+    },
+    {
+      "title": "完成率",
+      "dataIndex": "completionRate",
+      "key": "completionRate",
+      "width": 100
+    },
+    {
+      "title": "质量评分",
+      "dataIndex": "qualityScore",
+      "key": "qualityScore",
+      "width": 100
+    },
+    {
+      "title": "开始日期",
+      "dataIndex": "startDate",
+      "key": "startDate",
+      "width": 120
+    },
+    {
+      "title": "截止日期",
+      "dataIndex": "endDate",
+      "key": "endDate",
+      "width": 120
+    },
+    {
+      "title": "负责人",
+      "dataIndex": "manager",
+      "key": "manager",
+      "width": 120
+    }
+  ],
+  "data": [
+    {
+      "projectId": "P001",
+      "projectName": "用户中心重构",
+      "completionRate": "85%",
+      "qualityScore": 92,
+      "startDate": "2023-01-15",
+      "endDate": "2023-03-20",
+      "manager": "张三"
+    },
+    {
+      "projectId": "P002",
+      "projectName": "移动端适配优化",
+      "completionRate": "100%",
+      "qualityScore": 95,
+      "startDate": "2023-02-10",
+      "endDate": "2023-04-05",
+      "manager": "李四"
+    },
+    {
+      "projectId": "P003",
+      "projectName": "数据可视化模块",
+      "completionRate": "70%",
+      "qualityScore": 88,
+      "startDate": "2023-03-01",
+      "endDate": "2023-05-15",
+      "manager": "王五"
+    },
+    {
+      "projectId": "P004",
+      "projectName": "性能优化",
+      "completionRate": "90%",
+      "qualityScore": 94,
+      "startDate": "2023-04-10",
+      "endDate": "2023-05-25",
+      "manager": "赵六"
+    },
+    {
+      "projectId": "P005",
+      "projectName": "安全审计系统",
+      "completionRate": "60%",
+      "qualityScore": 85,
+      "startDate": "2023-05-01",
+      "endDate": "2023-07-15",
+      "manager": "钱七"
+    }
+  ]
+}

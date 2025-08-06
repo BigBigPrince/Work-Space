@@ -1,0 +1,72 @@
+{
+  "name": "基本信息",
+  "columns": [
+    {
+      "title": "ID",
+      "dataIndex": "id",
+      "key": "id",
+      "width": 100
+    },
+    {
+      "title": "名称",
+      "dataIndex": "name",
+      "key": "name",
+      "width": 150
+    },
+    {
+      "title": "类型",
+      "dataIndex": "type",
+      "key": "type",
+      "width": 120
+    },
+    {
+      "title": "创建日期",
+      "dataIndex": "createDate",
+      "key": "createDate",
+      "width": 180
+    },
+    {
+      "title": "状态",
+      "dataIndex": "status",
+      "key": "status",
+      "width": 120
+    }
+  ],
+  "data": [
+    {
+      "id": "G001",
+      "name": "绿色项目A",
+      "type": "环保",
+      "createDate": "2023-01-15",
+      "status": "进行中"
+    },
+    {
+      "id": "G002",
+      "name": "绿色项目B",
+      "type": "节能",
+      "createDate": "2023-02-20",
+      "status": "已完成"
+    },
+    {
+      "id": "G003",
+      "name": "绿色项目C",
+      "type": "可持续",
+      "createDate": "2023-03-10",
+      "status": "规划中"
+    },
+    {
+      "id": "G004",
+      "name": "绿色项目D",
+      "type": "环保",
+      "createDate": "2023-04-05",
+      "status": "进行中"
+    },
+    {
+      "id": "G005",
+      "name": "绿色项目E",
+      "type": "节能",
+      "createDate": "2023-05-12",
+      "status": "已暂停"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "name": "基本信息",
+  "columns": [
+    {
+      "title": "ID",
+      "dataIndex": "id",
+      "key": "id",
+      "width": 80
+    },
+    {
+      "title": "姓名",
+      "dataIndex": "name",
+      "key": "name",
+      "width": 120
+    },
+    {
+      "title": "年龄",
+      "dataIndex": "age",
+      "key": "age",
+      "width": 80
+    },
+    {
+      "title": "部门",
+      "dataIndex": "department",
+      "key": "department",
+      "width": 150
+    },
+    {
+      "title": "职位",
+      "dataIndex": "position",
+      "key": "position",
+      "width": 150
+    }
+  ],
+  "data": [
+    {
+      "id": "001",
+      "name": "张三",
+      "age": 28,
+      "department": "研发部",
+      "position": "前端开发工程师"
+    },
+    {
+      "id": "002",
+      "name": "李四",
+      "age": 32,
+      "department": "产品部",
+      "position": "产品经理"
+    },
+    {
+      "id": "003",
+      "name": "王五",
+      "age": 35,
+      "department": "设计部",
+      "position": "UI设计师"
+    },
+    {
+      "id": "004",
+      "name": "赵六",
+      "age": 40,
+      "department": "研发部",
+      "position": "技术总监"
+    },
+    {
+      "id": "005",
+      "name": "钱七",
+      "age": 26,
+      "department": "市场部",
+      "position": "市场专员"
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "name": "统计数据",
+  "columns": [
+    {
+      "title": "月份",
+      "dataIndex": "month",
+      "key": "month",
+      "width": 100
+    },
+    {
+      "title": "项目数量",
+      "dataIndex": "projectCount",
+      "key": "projectCount",
+      "width": 120
+    },
+    {
+      "title": "总投资(万元)",
+      "dataIndex": "totalInvestment",
+      "key": "totalInvestment",
+      "width": 150
+    },
+    {
+      "title": "环保收益(万元)",
+      "dataIndex": "environmentalBenefit",
+      "key": "environmentalBenefit",
+      "width": 150
+    },
+    {
+      "title": "参与人数",
+      "dataIndex": "participantCount",
+      "key": "participantCount",
+      "width": 120
+    }
+  ],
+  "data": [
+    {
+      "month": "2023-01",
+      "projectCount": 3,
+      "totalInvestment": 120.5,
+      "environmentalBenefit": 35.8,
+      "participantCount": 45
+    },
+    {
+      "month": "2023-02",
+      "projectCount": 5,
+      "totalInvestment": 210.3,
+      "environmentalBenefit": 62.4,
+      "participantCount": 78
+    },
+    {
+      "month": "2023-03",
+      "projectCount": 4,
+      "totalInvestment": 185.7,
+      "environmentalBenefit": 53.2,
+      "participantCount": 62
+    },
+    {
+      "month": "2023-04",
+      "projectCount": 6,
+      "totalInvestment": 250.0,
+      "environmentalBenefit": 75.5,
+      "participantCount": 95
+    },
+    {
+      "month": "2023-05",
+      "projectCount": 4,
+      "totalInvestment": 195.8,
+      "environmentalBenefit": 58.3,
+      "participantCount": 70
+    },
+    {
+      "month": "2023-06",
+      "projectCount": 7,
+      "totalInvestment": 320.2,
+      "environmentalBenefit": 96.1,
+      "participantCount": 110
+    }
+  ]
+}
