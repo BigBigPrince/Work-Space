@@ -1,12 +1,13 @@
 <template>
   <div
-    @click.stop="visitSite"
-    class="group relative rounded-xl p-4 border shadow-sm transition-all duration-300 ease-out
-           bg-gradient-to-br from-white/95 to-gray-50/95 backdrop-blur-sm
-           border-gray-200/80 hover:border-gray-300/80 hover:shadow-lg
-           hover:backdrop-blur-none cursor-pointer
-           transform hover:-translate-y-1 hover:scale-[1.02]"
-    :class="[isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2']"
+      @click.stop="visitSite"
+      class="group relative rounded-xl p-4 border shadow-sm transition-all duration-300 ease-out
+         bg-white
+         border-gray-200 hover:border-gray-300 hover:shadow-lg
+         cursor-pointer
+         transform hover:-translate-y-1 hover:scale-[1.02]
+         will-change-transform backface-visibility-hidden"
+      :class="[isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2']"
   >
     <!-- Favorite badge -->
     <button
