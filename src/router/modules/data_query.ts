@@ -7,7 +7,7 @@ const route: RouteRecordRaw = {
     meta: {
         title: "资料查询",
         sort: 2,
-        icon: 'DataLine'
+        icon: 'Document'
     }
 }
 

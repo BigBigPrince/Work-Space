@@ -7,7 +7,7 @@ const route: RouteRecordRaw = {
     meta: {
         title: "学习培训",
         sort: 3,
-        icon: 'DataLine'
+        icon: 'Promotion'
     }
 }
 

@@ -6,7 +6,7 @@ const route: RouteRecordRaw = {
   meta: {
     title: '实验机汇总',
     sort: 2,
-    icon: 'InfoFilled'
+    icon: 'Cpu'
   },
   children: [
     {
@@ -15,7 +15,7 @@ const route: RouteRecordRaw = {
       component: () => import('@/views/experimental/red/Red.vue'),
       meta: {
         title: '红实验机',
-        icon: 'InfoFilled'
+        icon: 'Monitor'
       }
     },
       {
@@ -24,7 +24,7 @@ const route: RouteRecordRaw = {
       component: () => import('@/views/experimental/green/Green.vue'),
       meta: {
         title: '绿实验机',
-        icon: 'InfoFilled'
+        icon: 'Monitor'
       }
     },
   ]
