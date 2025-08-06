@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "name": "VSCode",
+    "url": "https://code.visualstudio.com/",
+    "description": "轻量级但功能强大的源代码编辑器，支持多种编程语言和开发任务",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/visualstudiocode.svg"
+  },
+  {
+    "id": 2,
+    "name": "GitHub",
+    "url": "https://github.com/",
+    "description": "面向开源及私有软件项目的托管平台，全球最大的代码托管网站",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg"
+  },
+  {
+    "id": 3,
+    "name": "Stack Overflow",
+    "url": "https://stackoverflow.com/",
+    "description": "专业的程序设计领域的问答网站，帮助开发者解决各种编程问题",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/stackoverflow.svg"
+  },
+  {
+    "id": 4,
+    "name": "CodePen",
+    "url": "https://codepen.io/",
+    "description": "在线代码编辑器和前端设计社区，用于测试和展示HTML、CSS和JavaScript代码片段",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/codepen.svg"
+  },
+  {
+    "id": 5,
+    "name": "Figma",
+    "url": "https://www.figma.com/",
+    "description": "基于浏览器的协作式UI设计工具，支持实时协作和原型设计",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/figma.svg"
+  },
+  {
+    "id": 6,
+    "name": "Postman",
+    "url": "https://www.postman.com/",
+    "description": "API开发协作平台，用于构建和使用API的工具",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/postman.svg"
+  },
+  {
+    "id": 7,
+    "name": "Docker Hub",
+    "url": "https://hub.docker.com/",
+    "description": "Docker容器镜像的官方存储库，提供各种应用和服务的容器化解决方案",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/docker.svg"
+  },
+  {
+    "id": 8,
+    "name": "npm",
+    "url": "https://www.npmjs.com/",
+    "description": "JavaScript包管理器，世界上最大的软件注册表",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/npm.svg"
+  }
+]

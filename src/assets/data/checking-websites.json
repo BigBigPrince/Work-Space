@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "name": "Google Scholar",
+    "url": "https://scholar.google.com/",
+    "description": "免费的学术搜索引擎，提供各种学术文献、论文、书籍和摘要",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/googlescholar.svg"
+  },
+  {
+    "id": 2,
+    "name": "Wikipedia",
+    "url": "https://www.wikipedia.org/",
+    "description": "自由的在线百科全书，提供多语言的知识内容",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/wikipedia.svg"
+  },
+  {
+    "id": 3,
+    "name": "Wolfram Alpha",
+    "url": "https://www.wolframalpha.com/",
+    "description": "计算知识引擎，可以回答各种数学、科学和统计问题",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/wolframlanguage.svg"
+  },
+  {
+    "id": 4,
+    "name": "JSTOR",
+    "url": "https://www.jstor.org/",
+    "description": "数字图书馆，提供学术期刊、书籍和原始资料",
+    "icon": "https://www.jstor.org/assets/favicon.ico"
+  },
+  {
+    "id": 5,
+    "name": "ResearchGate",
+    "url": "https://www.researchgate.net/",
+    "description": "科学家和研究人员的社交网络，分享论文、提问和回答问题",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/researchgate.svg"
+  },
+  {
+    "id": 6,
+    "name": "arXiv",
+    "url": "https://arxiv.org/",
+    "description": "开放获取的电子预印本和论文库，主要涵盖物理学、数学、计算机科学等领域",
+    "icon": "https://static.arxiv.org/static/browse/0.3.4/images/icons/favicon.ico"
+  },
+  {
+    "id": 7,
+    "name": "PubMed",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/",
+    "description": "生物医学文献数据库，提供生命科学和生物医学研究的文献资源",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/pubmed.svg"
+  },
+  {
+    "id": 8,
+    "name": "IEEE Xplore",
+    "url": "https://ieeexplore.ieee.org/",
+    "description": "IEEE的数字图书馆，提供计算机科学、电子工程和相关领域的技术文献",
+    "icon": "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/ieee.svg"
+  }
+]
