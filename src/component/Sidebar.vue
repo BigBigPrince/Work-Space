@@ -14,7 +14,7 @@
       >
         <!-- 父菜单项 -->
         <div
-          v-if="route.meta?.hasChildren"
+          v-if="route.children && route.children.length > 0"
           class="menu-item parent-menu"
           :class="{
             'active': isRouteActive(route),
@@ -59,7 +59,7 @@
         <!-- 子菜单 - 正常模式 -->
         <transition name="submenu">
           <div
-            v-if="route.meta?.hasChildren && expandedMenus.includes(route.name as string) && !isCollapsed"
+            v-if="route.children && route.children.length > 0 && expandedMenus.includes(route.name as string) && !isCollapsed"
             class="submenu"
           >
             <router-link
@@ -83,7 +83,7 @@
 
         <!-- 子菜单 - 折叠模式下的悬浮菜单 -->
         <div
-          v-if="route.meta?.hasChildren && isCollapsed"
+          v-if="route.children && route.children.length > 0 && isCollapsed"
           class="collapsed-submenu-trigger"
           @mouseenter="showCollapsedSubmenu(route.name as string)"
           @mouseleave="hideCollapsedSubmenu"
@@ -222,7 +222,17 @@ export default defineComponent({
       const parentRoute = router.getRoutes().find(r => r.name === parentName)
       if (!parentRoute) return []
 
-      // 查找所有以父路由路径开头的子路由
+      // 如果路由有children属性，直接使用
+      if (parentRoute.children && parentRoute.children.length > 0) {
+        return parentRoute.children.filter(r => r.meta?.title)
+          .sort((a, b) => {
+            const sortA = a.meta?.sort as number || Infinity
+            const sortB = b.meta?.sort as number || Infinity
+            return sortA - sortB
+          })
+      }
+
+      // 兼容旧方式：查找所有以父路由路径开头的子路由
       const children = router.getRoutes()
         .filter(r => {
           return r.path.startsWith(parentRoute.path + '/') && r.meta?.title
@@ -282,7 +292,7 @@ export default defineComponent({
 
       // 检查每个顶级路由
       sortedRoutes.value.forEach(topRoute => {
-        if (topRoute.meta?.hasChildren) {
+        if (topRoute.children && topRoute.children.length > 0) {
           // 检查该顶级路由的子路由
           const childRoutes = getChildRoutes(topRoute.name as string)
           for (const child of childRoutes) {

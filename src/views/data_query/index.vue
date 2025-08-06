@@ -92,7 +92,7 @@ const favoriteWebsites = computed(() =>
   websites.value.filter(site => favoriteIds.value.has(site.id) && matchesSearch(site))
 )
 const nonFavoriteWebsites = computed(() =>
-  websites.value.filter(site => !favoriteIds.value.has(site.id) && matchesSearch(site))
+  websites.value.filter(site => matchesSearch(site))
 )
 
 // 在组件挂载时从localStorage加载收藏状态
