@@ -21,10 +21,6 @@ const handleResize = () => {
   }
 }
 
-// 切换侧边栏显示状态
-const toggleSidebar = () => {
-  isSidebarOpen.value = !isSidebarOpen.value
-}
 
 // 组件挂载时添加窗口大小变化监听器
 onMounted(() => {
@@ -47,13 +43,6 @@ watch(isMobileView, (newValue) => {
 
 <template>
   <div class="app-container">
-    <!-- 移动视图下的顶部导航栏 -->
-    <div v-if="isMobileView" class="mobile-header">
-      <button class="menu-toggle" @click="toggleSidebar">
-        <span class="menu-icon"></span>
-      </button>
-      <h1 class="mobile-title">应用名称</h1>
-    </div>
 
     <!-- 侧边栏 - 使用v-show而不是v-if以保持状态 -->
     <Sidebar
@@ -103,61 +92,6 @@ html, body {
   position: relative; /* 用于定位遮罩层 */
 }
 
-/* 移动视图下的顶部导航栏 */
-.mobile-header {
-  display: flex;
-  align-items: center;
-  height: 60px;
-  padding: 0 16px;
-  background-color: #ffffff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  z-index: 30;
-}
-
-.menu-toggle {
-  background: none;
-  border: none;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.menu-toggle:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
-.menu-icon {
-  position: relative;
-  width: 20px;
-  height: 2px;
-}
-
-.menu-icon::before,
-.menu-icon::after {
-  content: '';
-  position: absolute;
-  width: 20px;
-  height: 2px;
-  transition: all 0.3s ease;
-}
-
-.menu-icon::before {
-  top: -6px;
-}
-
-.menu-icon::after {
-  top: 6px;
-}
-
-.mobile-title {
-  margin-left: 16px;
-  font-size: 18px;
-  font-weight: 500;
-}
 
 .app-sidebar {
   flex-shrink: 0;
@@ -222,7 +156,6 @@ html, body {
 
   .app-content {
     padding: 16px;
-    margin-top: 60px; /* 为顶部导航栏留出空间 */
   }
 }
 </style>
