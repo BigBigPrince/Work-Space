@@ -2,7 +2,12 @@
   <div class="sidebar" :class="{ collapsed: isCollapsed }">
     <div class="sidebar-header">
       <h3 v-if="!isCollapsed">导航菜单</h3>
-      <div class="toggle-btn" @click="toggleCollapse" :title="isCollapsed ? '展开菜单' : '收起菜单'">
+      <div
+        class="toggle-btn"
+        @click="toggleCollapse"
+        :title="isCollapsed ? (canExpand ? '展开菜单' : '窗口太小无法展开') : '收起菜单'"
+        :class="{ 'disabled': !canExpand && isCollapsed }"
+      >
         <el-icon :size="14"><component :is="isCollapsed ? 'ArrowRight' : 'ArrowLeft'" /></el-icon>
       </div>
     </div>
@@ -154,7 +159,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch, onMounted } from 'vue'
+import {computed, defineComponent, ref, watch, onMounted, onUnmounted} from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import { Document, Folder, ArrowLeft, ArrowRight, ArrowUp, ArrowDown } from '@element-plus/icons-vue'
@@ -173,6 +178,7 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const isCollapsed = ref(false)
+    const canExpand = ref<boolean>(true) // 控制是否允许展开侧边栏
     const currentYear = new Date().getFullYear()
     const expandedMenus = ref<string[]>([])
 
@@ -180,11 +186,11 @@ export default defineComponent({
     const hoveredMenu = ref<string | null>(null)
     const clickedMenu = ref<string | null>(null)
 
-    // 切换侧边栏折叠状态
-    const toggleCollapse = () => {
-      isCollapsed.value = !isCollapsed.value
-      clickedMenu.value = null // 折叠/展开时关闭所有点击菜单
-    }
+    // // 切换侧边栏折叠状态
+    // const toggleCollapse = () => {
+    //   isCollapsed.value = !isCollapsed.value
+    //   clickedMenu.value = null // 折叠/展开时关闭所有点击菜单
+    // }
 
     // 切换子菜单的展开/折叠状态
     const toggleSubmenu = (routeName: string) => {
@@ -370,11 +376,37 @@ export default defineComponent({
     // 组件挂载时自动展开当前路由对应的菜单
     onMounted(() => {
       autoExpandMenus()
+
+      // 添加窗口大小监听
+      const mediaQuery = window.matchMedia('(min-width: 1025px)')
+      canExpand.value = mediaQuery.matches
+
+      const handleMediaChange = (e: MediaQueryListEvent) => {
+        canExpand.value = e.matches
+        if (!e.matches) {
+          isCollapsed.value = true // 窗口变小时强制折叠
+        }
+      }
+
+      mediaQuery.addEventListener('change', handleMediaChange)
+
+      // 清理监听器
+      onUnmounted(() => {
+        mediaQuery.removeEventListener('change', handleMediaChange)
+      })
     })
+
+    // 修改切换折叠状态的方法
+    const toggleCollapse = () => {
+      if (!canExpand.value) return // 不允许展开时直接返回
+      isCollapsed.value = !isCollapsed.value
+      clickedMenu.value = null // 折叠/展开时关闭所有点击菜单
+    }
 
     return {
       sortedRoutes,
       isCollapsed,
+      canExpand,
       toggleCollapse,
       currentYear,
       route,
@@ -424,6 +456,14 @@ export default defineComponent({
 
 .toggle-btn:hover {
   @apply bg-gray-50;
+}
+
+.toggle-btn.disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+
+.toggle-btn.disabled:hover {
+  @apply bg-transparent;
 }
 
 .sidebar-menu {
@@ -619,9 +659,22 @@ export default defineComponent({
 }
 
 /* 响应式设计 */
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .sidebar {
-    @apply w-16;
+    @apply w-12;
+    z-index: 50;
+  }
+
+  .sidebar-header {
+    @apply px-3;
+  }
+
+  .toggle-btn {
+    @apply w-6 h-6;
+  }
+
+  .menu-item {
+    @apply px-3 mx-1;
   }
 
   .sidebar-header h3,
@@ -630,12 +683,68 @@ export default defineComponent({
     @apply hidden;
   }
 
+  .collapsed-submenu {
+    min-width: 160px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
   .sidebar {
-    z-index: 50;
+    @apply w-16;
   }
 
-  .collapsed-submenu-item {
-    padding: 8px 14px;
+  .menu-item {
+    @apply px-4 mx-2;
   }
+
+  .sidebar-header h3,
+  .menu-title,
+  .sidebar-footer {
+    @apply hidden;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .sidebar {
+    @apply w-52;
+  }
+
+  .menu-title {
+    font-size: 0.8125rem;
+  }
+
+  .submenu-item {
+    @apply pl-8;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .sidebar {
+    @apply w-56;
+  }
+
+  .menu-title {
+    font-size: 0.875rem;
+  }
+}
+
+/* 优化折叠状态下的子菜单位置 */
+.collapsed-submenu {
+  top: -6px;
+  margin-left: 6px;
+}
+
+/* 优化菜单项间距 */
+.menu-item {
+  margin: 3px 6px;
+}
+
+/* 优化过渡效果 */
+.sidebar {
+  transition: width 0.25s ease, transform 0.25s ease;
+}
+
+.menu-item, .submenu-item {
+  transition: all 0.15s ease;
 }
 </style>
