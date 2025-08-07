@@ -87,11 +87,13 @@
           class="collapsed-submenu-trigger"
           @mouseenter="showCollapsedSubmenu(route.name as string)"
           @mouseleave="hideCollapsedSubmenu"
+          v-click-outside="handleClickOutside"
           style="position: relative;"
         >
+          <!-- 悬停触发的子菜单 -->
           <transition name="fade">
             <div
-              v-show="hoveredMenu === route.name"
+              v-show="hoveredMenu === route.name && !clickedMenu"
               class="collapsed-submenu"
               style="position: absolute; left: 100%; top: 0; z-index: 2000; min-width: 180px; background: white; display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 1px solid #e2e8f0; border-radius: 6px;"
             >
@@ -102,6 +104,33 @@
                 :to="getChildPath(route.path, child.path)"
                 class="collapsed-submenu-item"
                 :class="{ active: isChildRouteActive(route.path, child.path) }"
+              >
+                <div class="menu-icon">
+                  <el-icon v-if="child.meta?.icon">
+                    <component :is="child.meta.icon" />
+                  </el-icon>
+                  <el-icon v-else><Document /></el-icon>
+                </div>
+                <span>{{ child.meta?.title || '未命名' }}</span>
+              </router-link>
+            </div>
+          </transition>
+
+          <!-- 点击触发的子菜单 -->
+          <transition name="fade">
+            <div
+              v-show="clickedMenu === route.name"
+              class="collapsed-submenu"
+              style="position: absolute; left: 100%; top: 0; z-index: 2000; min-width: 180px; background: white; display: block; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 1px solid #e2e8f0; border-radius: 6px;"
+            >
+              <div class="collapsed-submenu-title">{{ route.meta?.title || '未命名' }}</div>
+              <router-link
+                v-for="child in getChildRoutes(route.name as string)"
+                :key="child.path"
+                :to="getChildPath(route.path, child.path)"
+                class="collapsed-submenu-item"
+                :class="{ active: isChildRouteActive(route.path, child.path) }"
+                @click="clickedMenu = null"
               >
                 <div class="menu-icon">
                   <el-icon v-if="child.meta?.icon">
@@ -161,25 +190,22 @@ export default defineComponent({
     const toggleSubmenu = (routeName: string) => {
       if (isCollapsed.value) {
         // 折叠状态下点击主菜单项，切换弹出层
-        const wasOpen = clickedMenu.value === routeName;
-        clickedMenu.value = wasOpen ? null : routeName;
-
-        // 如果是打开弹出层（而不是关闭），则导航到第一个子菜单
-        if (!wasOpen) {
-          navigateToFirstChild(routeName);
-        }
+        clickedMenu.value = clickedMenu.value === routeName ? null : routeName;
       } else {
         // 展开状态下正常切换子菜单展开状态
         const index = expandedMenus.value.indexOf(routeName);
         if (index === -1) {
-          // 子菜单从折叠变为展开，导航到第一个子菜单
           expandedMenus.value.push(routeName);
           navigateToFirstChild(routeName);
         } else {
-          // 子菜单从展开变为折叠，不进行导航
           expandedMenus.value.splice(index, 1);
         }
       }
+    }
+
+    // 点击外部关闭菜单
+    const handleClickOutside = () => {
+      clickedMenu.value = null;
     }
 
     // 导航到指定主菜单的第一个子菜单
