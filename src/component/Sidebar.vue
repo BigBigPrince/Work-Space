@@ -161,14 +161,41 @@ export default defineComponent({
     const toggleSubmenu = (routeName: string) => {
       if (isCollapsed.value) {
         // 折叠状态下点击主菜单项，切换弹出层
-        clickedMenu.value = clickedMenu.value === routeName ? null : routeName
+        const wasOpen = clickedMenu.value === routeName;
+        clickedMenu.value = wasOpen ? null : routeName;
+
+        // 如果是打开弹出层（而不是关闭），则导航到第一个子菜单
+        if (!wasOpen) {
+          navigateToFirstChild(routeName);
+        }
       } else {
         // 展开状态下正常切换子菜单展开状态
-        const index = expandedMenus.value.indexOf(routeName)
+        const index = expandedMenus.value.indexOf(routeName);
         if (index === -1) {
-          expandedMenus.value.push(routeName)
+          // 子菜单从折叠变为展开，导航到第一个子菜单
+          expandedMenus.value.push(routeName);
+          navigateToFirstChild(routeName);
         } else {
-          expandedMenus.value.splice(index, 1)
+          // 子菜单从展开变为折叠，不进行导航
+          expandedMenus.value.splice(index, 1);
+        }
+      }
+    }
+
+    // 导航到指定主菜单的第一个子菜单
+    const navigateToFirstChild = (routeName: string) => {
+      // 获取该主菜单的子菜单
+      const childRoutes = getChildRoutes(routeName);
+
+      // 如果有子菜单，导航到第一个子菜单
+      if (childRoutes && childRoutes.length > 0) {
+        // 找到父路由
+        const parentRoute = router.getRoutes().find(r => r.name === routeName);
+        if (parentRoute) {
+          // 构建第一个子菜单的完整路径
+          const firstChildPath = getChildPath(parentRoute.path, childRoutes[0].path);
+          // 导航到第一个子菜单
+          router.push(firstChildPath);
         }
       }
     }
