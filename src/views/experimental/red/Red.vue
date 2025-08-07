@@ -39,7 +39,14 @@
               :style="{ '--index': index }"
             >
               <td v-for="column in currentTabData.columns" :key="column.key">
-                {{ row[column.dataIndex] }}
+                <template v-if="isUrl(row[column.dataIndex])">
+                  <a :href="row[column.dataIndex]" target="_blank" class="url-link">
+                    {{ row[column.dataIndex] }}
+                  </a>
+                </template>
+                <template v-else>
+                  {{ row[column.dataIndex] }}
+                </template>
               </td>
             </tr>
           </tbody>
@@ -147,6 +154,20 @@ const refreshData = () => {
   loadTabData();
 };
 
+// 判断是否为URL
+const isUrl = (str: string) => {
+  if (!str) return false;
+  try {
+    // 尝试创建URL对象，能成功则认为是有效URL
+    new URL(str);
+    return true;
+  } catch {
+    // 检查是否是IP地址或局域网地址
+    const ipPattern = /^(https?:\/\/)?((\d{1,3}\.){3}\d{1,3}|localhost)(:\d+)?(\/.*)?$/i;
+    return ipPattern.test(str);
+  }
+};
+
 // 组件挂载时加载数据
 onMounted(() => {
   loadTabData();
@@ -196,5 +217,21 @@ onMounted(() => {
 
 .red-theme .table-wrapper::-webkit-scrollbar-thumb:hover {
   background: #ffa39e;
+}
+
+/* URL链接样式 */
+.red-theme .url-link {
+  color: #f5222d;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.red-theme .url-link:hover {
+  color: #ff4d4f;
+  text-decoration: underline;
+}
+
+.red-theme .url-link:visited {
+  color: #cf1322;
 }
 </style>
