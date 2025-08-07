@@ -383,7 +383,9 @@ export default defineComponent({
 
       const handleMediaChange = (e: MediaQueryListEvent) => {
         canExpand.value = e.matches
-        if (!e.matches) {
+        if (e.matches) {
+          isCollapsed.value = false // 窗口变大到阈值时自动展开
+        } else {
           isCollapsed.value = true // 窗口变小时强制折叠
         }
       }
