@@ -371,19 +371,10 @@ export default defineComponent({
 <style scoped>
 .sidebar {
   @apply w-64 h-full bg-white flex flex-col relative;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  /* 优化过渡效果，确保平滑且文字清晰 */
-  transition:
-    width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
-    transform 0.01s; /* 强制硬件加速 */
-  /* 添加字体渲染优化 */
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: subpixel-antialiased;
-  -moz-osx-font-smoothing: auto;
-  /* 确保像素完美对齐 */
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.03);
+  transition: width 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .sidebar.collapsed {
@@ -391,24 +382,25 @@ export default defineComponent({
 }
 
 .sidebar-header {
-  @apply px-6 py-5 flex items-center justify-between h-16;
-  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  @apply px-5 py-4 flex items-center justify-between h-14;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
 }
 
 .sidebar-header h3 {
-  @apply m-0 text-gray-700 text-lg font-semibold truncate;
+  @apply m-0 text-gray-700 text-base font-medium truncate;
+  letter-spacing: 0.01em;
 }
 
 .toggle-btn {
-  @apply cursor-pointer w-6 h-6 flex items-center justify-center rounded-full transition-all;
+  @apply cursor-pointer w-7 h-7 flex items-center justify-center rounded-full transition-all;
 }
 
 .toggle-btn:hover {
-  @apply bg-gray-100;
+  @apply bg-gray-50;
 }
 
 .sidebar-menu {
-  @apply py-3 flex flex-col flex-1 overflow-visible;
+  @apply py-2 flex flex-col flex-1 overflow-visible;
 }
 
 .menu-group {
@@ -417,53 +409,42 @@ export default defineComponent({
 }
 
 .menu-item {
-  @apply px-6 py-3 text-gray-600 no-underline text-sm relative flex items-center overflow-hidden cursor-pointer;
-  margin: 2px 8px;
-  border-radius: 6px;
-  /* 优化过渡效果 */
-  transition:
-    background-color 0.2s cubic-bezier(0.25, 0.8, 0.25, 1),
-    color 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-  /* 高级字体渲染优化 */
-  text-rendering: geometricPrecision;
-  -webkit-font-smoothing: subpixel-antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-smooth: always;
-  /* 确保像素完美对齐 */
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
+  @apply px-5 py-2.5 text-gray-500 no-underline text-sm relative flex items-center overflow-hidden cursor-pointer;
+  margin: 2px 6px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  font-weight: 400;
 }
 
 .menu-icon {
-  @apply w-5 h-5 flex items-center justify-center mr-3 flex-shrink-0;
-  /* 优化过渡效果，只对颜色应用过渡 */
-  transition: color 0.2s ease;
+  @apply w-5 h-5 flex items-center justify-center mr-3 flex-shrink-0 opacity-80;
+  transition: all 0.2s ease;
 }
 
 .menu-title {
-  @apply truncate flex-1 font-medium;
-  /* 移除可能导致文字模糊的transform */
-  /* transform: translateZ(0); */
+  @apply truncate flex-1;
+  letter-spacing: 0.01em;
 }
 
 .menu-item:hover {
-  @apply bg-gray-50 text-gray-900;
+  @apply bg-gray-50 text-gray-800;
 }
 
 .menu-item:hover .menu-icon {
-  @apply text-gray-700;
+  @apply opacity-100;
 }
 
 .menu-item.active {
-  @apply text-indigo-600 bg-indigo-50;
+  @apply text-indigo-600 bg-indigo-50 font-medium;
+  box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.05);
 }
 
 .menu-item.active .menu-icon {
-  @apply text-indigo-600;
+  @apply text-indigo-600 opacity-100;
 }
 
 .menu-item.active::before {
-  @apply content-[''] absolute left-0 top-0 bottom-0 w-1 bg-indigo-500 rounded-r;
+  @apply content-[''] absolute left-0 top-1/2 -translate-y-1/2 h-3/5 w-1 bg-indigo-500 rounded-r;
 }
 
 /* 移除父菜单容器更靠左的激活状态指示条 */
@@ -478,78 +459,55 @@ export default defineComponent({
 }
 
 .submenu-arrow {
-  @apply absolute right-4 transition-all duration-200 text-gray-400;
+  @apply absolute right-3 transition-all duration-200 text-gray-400 opacity-70;
 }
 
 .parent-menu:hover .submenu-arrow {
-  @apply text-gray-600;
+  @apply text-gray-500 opacity-100;
 }
 
 .parent-menu.expanded .submenu-arrow {
-  @apply text-gray-600;
+  @apply text-gray-600 opacity-100;
 }
 
-/* 子菜单容器样式 - 优化动画性能 */
+/* 子菜单容器样式 */
 .submenu {
   @apply overflow-hidden;
-  background-color: rgba(241, 245, 249, 0.5);
-  border-radius: 0 0 6px 6px;
-  margin: 0 8px 4px;
-  /* 添加硬件加速和字体优化 */
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-  text-rendering: geometricPrecision;
-  -webkit-font-smoothing: subpixel-antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: rgba(249, 250, 251, 0.7);
+  border-radius: 6px;
+  margin: 0 6px 4px;
 }
 
-/* 子菜单项样式 - 优化动画和文字清晰度 */
+/* 子菜单项样式 */
 .submenu-item {
-  @apply px-6 py-2 pl-12 text-gray-500 no-underline text-sm flex items-center overflow-hidden;
-  /* 优化过渡效果 */
-  transition:
-    background-color 0.2s cubic-bezier(0.25, 0.8, 0.25, 1),
-    color 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-  /* 高级字体渲染优化 */
-  text-rendering: geometricPrecision;
-  -webkit-font-smoothing: subpixel-antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-smooth: always;
-  /* 确保像素完美对齐 */
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
+  @apply px-4 py-2 pl-10 text-gray-500 no-underline text-sm flex items-center overflow-hidden;
+  transition: all 0.2s ease;
+  border-radius: 6px;
+  margin: 2px 4px;
 }
 
 .submenu-item:hover {
-  @apply bg-gray-100 text-gray-800;
+  @apply bg-gray-50 text-gray-700;
 }
 
 .submenu-item.active {
-  @apply text-indigo-600 bg-indigo-100;
+  @apply text-indigo-600 bg-indigo-50 font-medium;
 }
-
-/*
-.submenu-item.active::before {
-  @apply content-[''] absolute left-0 top-0 bottom-0 w-1 bg-indigo-500 rounded-r;
-}*/
 
 .submenu-title {
   @apply truncate ml-2;
-  /* 确保文字不会因为truncate而模糊 */
-  transform: translateZ(0);
 }
 
 .sidebar-footer {
-  @apply px-6 py-4 text-xs text-gray-400;
-  border-top: 1px solid rgba(226, 232, 240, 0.8);
+  @apply px-5 py-3 text-xs text-gray-400;
+  border-top: 1px solid rgba(226, 232, 240, 0.5);
 }
 
 .footer-info p {
   @apply m-0;
 }
 
-/* 优化折叠状态下的样式 */
+/* 折叠状态下的样式 */
 .sidebar.collapsed .menu-item {
   @apply justify-center px-0 mx-2;
 }
@@ -570,45 +528,38 @@ export default defineComponent({
   top: 0;
   min-width: 180px;
   background-color: white;
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   z-index: 9999;
-  padding: 8px 0;
+  padding: 6px 0;
   display: block;
-  /* 移除可能导致文字模糊的transform */
-  /* transform: translateZ(0); */
-  border: 1px solid #e2e8f0;
-  /* 添加以下属性以确保文字渲染清晰 */
-  backface-visibility: hidden;
+  border: 1px solid rgba(226, 232, 240, 0.7);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .collapsed-submenu-title {
-  padding: 8px 16px;
+  padding: 8px 14px;
   font-weight: 500;
   color: #64748b;
-  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
   margin-bottom: 4px;
+  font-size: 0.8125rem;
 }
 
 .collapsed-submenu-item {
   display: flex;
   align-items: center;
-  padding: 8px 16px;
+  padding: 7px 14px;
   color: #64748b;
   text-decoration: none;
-  /* 优化过渡效果，只对必要属性应用过渡 */
-  transition: background-color 0.2s ease, color 0.2s ease;
-  /* 添加以下属性以确保文字渲染清晰 */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* 确保文本位置精确对齐到像素 */
-  transform: translateZ(0);
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  margin: 0 4px;
 }
 
 .collapsed-submenu-item:hover {
-  background-color: #f1f5f9;
+  background-color: #f8fafc;
   color: #334155;
 }
 
@@ -617,43 +568,27 @@ export default defineComponent({
   background-color: #eef2ff;
 }
 
-/* 优化动画效果，确保文字清晰 */
+/* 动画效果 */
 .submenu-enter-active,
 .submenu-leave-active {
-  transition:
-    max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.2s ease;
+  transition: max-height 0.25s ease, opacity 0.2s ease;
   max-height: 300px;
-  will-change: max-height;
-  /* 添加字体渲染优化 */
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: subpixel-antialiased;
-  -moz-osx-font-smoothing: auto;
 }
 
 .submenu-enter-from,
 .submenu-leave-to {
   max-height: 0;
   opacity: 0;
-  /* 确保动画开始时文字清晰 */
-  transform: translateZ(0) scale(1);
 }
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s ease;
-  will-change: opacity;
-  /* 添加字体渲染优化 */
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: subpixel-antialiased;
-  -moz-osx-font-smoothing: auto;
+  transition: opacity 0.25s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-  /* 确保动画开始时文字清晰 */
-  transform: translateZ(0) scale(1);
 }
 
 /* 响应式设计 */
@@ -668,14 +603,12 @@ export default defineComponent({
     @apply hidden;
   }
 
-  /* 在移动端，确保侧边栏不会被其他内容覆盖 */
   .sidebar {
     z-index: 50;
   }
 
-  /* 在移动端，悬浮子菜单需要更大的点击区域 */
   .collapsed-submenu-item {
-    padding: 10px 16px;
+    padding: 8px 14px;
   }
 }
 </style>
