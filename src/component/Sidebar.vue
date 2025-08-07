@@ -389,6 +389,7 @@ export default defineComponent({
       showCollapsedSubmenu,
       hideCollapsedSubmenu,
       vClickOutside,
+      handleClickOutside,
     }
   }
 })
