@@ -194,17 +194,41 @@ export default defineComponent({
 
     // 切换子菜单的展开/折叠状态
     const toggleSubmenu = (routeName: string) => {
+      // 获取该主菜单的路由
+      const parentRoute = router.getRoutes().find(r => r.name === routeName);
+      if (!parentRoute) return;
+
+      // 检查当前路由是否在该主菜单的子页面中
+      const isInChildRoute = isRouteActive(parentRoute);
+      const isExactParentRoute = route.path === parentRoute.path;
+
       if (isCollapsed.value) {
-        // 折叠状态下点击主菜单项，切换弹出层
-        clickedMenu.value = clickedMenu.value === routeName ? null : routeName;
-      } else {
-        // 展开状态下正常切换子菜单展开状态
-        const index = expandedMenus.value.indexOf(routeName);
-        if (index === -1) {
-          expandedMenus.value.push(routeName);
+        // 折叠状态下点击主菜单项
+        if (!isInChildRoute || isExactParentRoute) {
+          // 如果不在子菜单页面中，直接导航到第一个子菜单
           navigateToFirstChild(routeName);
         } else {
-          expandedMenus.value.splice(index, 1);
+          // 如果已经在子菜单中，则切换弹出层
+          clickedMenu.value = clickedMenu.value === routeName ? null : routeName;
+        }
+      } else {
+        // 展开状态下的逻辑
+        // 如果当前不在该主菜单的子页面中，或者正好在父路由页面，则展开子菜单并导航到第一个子菜单
+        if (!isInChildRoute || isExactParentRoute) {
+          // 确保菜单展开
+          if (!expandedMenus.value.includes(routeName)) {
+            expandedMenus.value.push(routeName);
+          }
+          // 导航到第一个子菜单
+          navigateToFirstChild(routeName);
+        } else {
+          // 如果已经在该主菜单的子页面中，则切换子菜单的展开/折叠状态
+          const index = expandedMenus.value.indexOf(routeName);
+          if (index === -1) {
+            expandedMenus.value.push(routeName);
+          } else {
+            expandedMenus.value.splice(index, 1);
+          }
         }
       }
     }
@@ -432,40 +456,48 @@ export default defineComponent({
 <style scoped>
 .sidebar {
   @apply w-64 h-full bg-white flex flex-col relative;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.03);
-  transition: width 0.3s ease;
+  border-right: 1px solid rgba(0, 0, 0, 0.03);
+  transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #1a1a1a;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 
 .sidebar.collapsed {
   @apply w-16;
+  box-shadow: none;
+  border-right: 1px solid rgba(0, 0, 0, 0.02);
 }
 
 .sidebar-header {
-  @apply px-5 py-4 flex items-center justify-between h-14;
-  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+  @apply px-4 py-3 flex items-center justify-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.015);
 }
 
 .sidebar-header h3 {
-  @apply m-0 text-gray-700 text-base font-medium truncate;
+  @apply m-0 text-gray-800 text-sm font-medium truncate;
   letter-spacing: 0.01em;
 }
 
 .toggle-btn {
-  @apply cursor-pointer w-7 h-7 flex items-center justify-center rounded-full transition-all;
+  @apply cursor-pointer w-6 h-6 flex items-center justify-center rounded transition-all;
+  color: rgba(0, 0, 0, 0.45);
+  transition: all 0.15s ease;
 }
 
 .toggle-btn:hover {
-  @apply bg-gray-50;
+  @apply bg-gray-100;
+  color: rgba(0, 0, 0, 0.8);
 }
 
 .toggle-btn.disabled {
-  @apply cursor-not-allowed opacity-50;
+  @apply cursor-not-allowed opacity-25;
 }
 
 .toggle-btn.disabled:hover {
   @apply bg-transparent;
+  color: rgba(0, 0, 0, 0.45);
 }
 
 .sidebar-menu {
@@ -478,16 +510,16 @@ export default defineComponent({
 }
 
 .menu-item {
-  @apply px-5 py-2.5 text-gray-500 no-underline text-sm relative flex items-center overflow-hidden cursor-pointer;
+  @apply px-4 py-2.5 text-gray-600 no-underline text-sm relative flex items-center overflow-hidden cursor-pointer;
   margin: 2px 6px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  border-radius: 6px;
+  transition: all 0.15s ease;
   font-weight: 400;
 }
 
 .menu-icon {
-  @apply w-5 h-5 flex items-center justify-center mr-3 flex-shrink-0 opacity-80;
-  transition: all 0.2s ease;
+  @apply w-5 h-5 flex items-center justify-center mr-3 flex-shrink-0 opacity-85;
+  transition: all 0.15s ease;
 }
 
 .menu-title {
@@ -496,7 +528,7 @@ export default defineComponent({
 }
 
 .menu-item:hover {
-  @apply bg-gray-50 text-gray-800;
+  @apply bg-gray-100 text-gray-900;
 }
 
 .menu-item:hover .menu-icon {
@@ -504,16 +536,15 @@ export default defineComponent({
 }
 
 .menu-item.active {
-  @apply text-indigo-600 bg-indigo-50 font-medium;
-  box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.05);
+  @apply text-blue-600 bg-blue-50 font-medium;
 }
 
 .menu-item.active .menu-icon {
-  @apply text-indigo-600 opacity-100;
+  @apply text-blue-600 opacity-100;
 }
 
 .menu-item.active::before {
-  @apply content-[''] absolute left-0 top-1/2 -translate-y-1/2 h-3/5 w-1 bg-indigo-500 rounded-r;
+  @apply content-[''] absolute left-0 top-1/2 -translate-y-1/2 h-3/5 w-1 bg-blue-500 rounded-r;
 }
 
 /* 移除父菜单容器更靠左的激活状态指示条 */
@@ -550,17 +581,17 @@ export default defineComponent({
 /* 子菜单项样式 */
 .submenu-item {
   @apply px-4 py-2 pl-10 text-gray-500 no-underline text-sm flex items-center overflow-hidden;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   border-radius: 6px;
   margin: 2px 4px;
 }
 
 .submenu-item:hover {
-  @apply bg-gray-50 text-gray-700;
+  @apply bg-gray-100 text-gray-800;
 }
 
 .submenu-item.active {
-  @apply text-indigo-600 bg-indigo-50 font-medium;
+  @apply text-blue-600 bg-blue-50 font-medium;
 }
 
 .submenu-title {
@@ -578,11 +609,24 @@ export default defineComponent({
 
 /* 折叠状态下的样式 */
 .sidebar.collapsed .menu-item {
-  @apply justify-center px-0 mx-2;
+  @apply justify-center px-0 w-10 h-10 mx-auto my-1;
+  border-radius: 50%;
 }
 
 .sidebar.collapsed .menu-icon {
-  @apply mr-0;
+  @apply mr-0 text-lg;
+}
+
+.sidebar.collapsed .menu-item:hover {
+  @apply bg-gray-100;
+}
+
+.sidebar.collapsed .menu-item.active {
+  @apply bg-blue-100;
+}
+
+.sidebar.collapsed .menu-item.active .menu-icon {
+  @apply text-blue-600;
 }
 
 /* 折叠状态下的子菜单样式 */
@@ -594,24 +638,25 @@ export default defineComponent({
 .collapsed-submenu {
   position: absolute;
   left: 100%;
-  top: 0;
-  min-width: 180px;
+  top: -6px;
+  min-width: 200px;
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 9999;
-  padding: 6px 0;
+  padding: 8px 0;
   display: block;
-  border: 1px solid rgba(226, 232, 240, 0.7);
+  border: 1px solid rgba(226, 232, 240, 0.8);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  margin-left: 6px;
 }
 
 .collapsed-submenu-title {
-  padding: 8px 14px;
+  padding: 8px 16px;
   font-weight: 500;
-  color: #64748b;
-  border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+  color: #475569;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.6);
   margin-bottom: 4px;
   font-size: 0.8125rem;
 }
@@ -619,22 +664,31 @@ export default defineComponent({
 .collapsed-submenu-item {
   display: flex;
   align-items: center;
-  padding: 7px 14px;
-  color: #64748b;
+  padding: 8px 16px;
+  color: #475569;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   border-radius: 4px;
   margin: 0 4px;
+  font-size: 0.8125rem;
 }
 
 .collapsed-submenu-item:hover {
-  background-color: #f8fafc;
-  color: #334155;
+  background-color: #f1f5f9;
+  color: #1e293b;
 }
 
 .collapsed-submenu-item.active {
-  color: #4f46e5;
-  background-color: #eef2ff;
+  color: #3b82f6;
+  background-color: #eff6ff;
+}
+
+.collapsed-submenu-item .menu-icon {
+  @apply w-4 h-4 mr-3 opacity-90;
+}
+
+.collapsed-submenu-item.active .menu-icon {
+  @apply text-blue-500 opacity-100;
 }
 
 /* 动画效果 */
